@@ -1,0 +1,7 @@
+Consumer Key (API Key)	52LAxu5pHerDedZznOe0pMfJ6
+Consumer Secret (API Secret)	TzgDLpTTPvqPV9zezDZrsVY8lj4MyTsTMZl1vVtsiqIRGgld4m
+
+App-only authentication	https://api.twitter.com/oauth2/token
+Request token URL	https://api.twitter.com/oauth/request_token
+Authorize URL	https://api.twitter.com/oauth/authorize
+Access token URL	https://api.twitter.com/oauth/access_token
