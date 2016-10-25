@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BDBOAuth1Manager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -41,6 +42,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        dlog("url: \(url)")
+        var validUrl = false
+        if let oauthCred = BDBOAuth1Credential(queryString: url.query) {
+            dlog("oauthCred: \(oauthCred)")
+            validUrl = true
+            let baseUrl = URL(string: "https://api.twitter.com")
+        
+            let twitterClient = BDBOAuth1SessionManager(baseURL: baseUrl, consumerKey: consumerKey, consumerSecret: consumerSecret)
+        
+            twitterClient?.fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken: oauthCred,
+                success: { (accessToken: BDBOAuth1Credential?) in
+                                                
+                    dlog("\(accessToken)")
+                    
+                    oauthAccessToken = accessToken?.token
+                    NotificationCenter.default.post(name: didReceiveOauthTokenNotification, object: accessToken)
 
+                    
+                },
+                failure: { (error: Error?) in
+                    dlog("\(error)")
+            })
+
+        }
+        return validUrl
+    }
+    
 }
 
+
+
+
+
+/*
+ 
+ if let urlScheme = url.scheme,
+ let urlQuery = url.query {
+ 
+ if urlScheme == "btweeter" && urlQuery.contains("oauth_token") {
+ 
+ validUrl = true
+ 
+ let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+ for qcomp in components!.queryItems! {
+ 
+ dlog("name: \(qcomp.name)")
+ dlog("value: \(qcomp.value)")
+ 
+ if qcomp.name == "oauth_token" {
+ oauthAccessToken = qcomp.value
+ NotificationCenter.default.post(name: didReceiveOauthTokenNotification, object: nil)
+ }
+ if qcomp.name == "oauth_verifier" {
+ oauthVerifierToken = qcomp.value
+ }
+ }
+ }
+ }
+
+ 
+ */
