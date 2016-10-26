@@ -43,24 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        
         dlog("url: \(url)")
-        var validUrl = false
-        
-        if let oauthCred = BDBOAuth1Credential(queryString: url.query) {
-            dlog("oauthCred: \(oauthCred)")
-            validUrl = true
-        
-            HttpTwitterClient.shared.fetchAccessToken(withPath: twitterOauthAccessTokenPath, method: "POST", requestToken: oauthCred,
-                success: { (accessToken: BDBOAuth1Credential?) in
-                    oauthAccessToken = accessToken?.token
-                    oauthVerifierToken = accessToken?.verifier
-                    NotificationCenter.default.post(name: didReceiveOauthTokenNotification, object: accessToken)
-                },
-                failure: { (error: Error?) in
-                    dlog("\(error)")
-            })
-        }
+        let validUrl = HttpTwitterClient.shared.handleOpenUrl(url: url)
         return validUrl
     }
     

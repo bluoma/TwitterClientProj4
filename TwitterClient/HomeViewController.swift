@@ -12,30 +12,37 @@ class HomeViewController: UIViewController {
 
     
     var timelineDownloadTask: URLSessionDataTask?
+    var currentUser: User!
+    var userTimeline: [Tweet] = [] {
+        didSet {
+            dlog("tweetCount: \(userTimeline.count)")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-         timelineDownloadTask = HttpTwitterClient.shared.fetchHomeTimeline(parameters: nil,
-             success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
-         
-                 dlog("data: \(tweetDictArray)")
-         
-             },
-             failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-                 dlog("error fetching timeline: \(error)")
-         
-         })
-         
-         dlog("task: \(timelineDownloadTask)")
-
-    
+        
+        if currentUser == nil {
+            return
+        }
+        dlog("currentUSer: \(currentUser)")
+        doTimelineDownload()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dlog("")
        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        dlog("")
+        if currentUser == nil {
+            signOutPressed(self)
+            return
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -72,4 +79,26 @@ class HomeViewController: UIViewController {
     }
     */
 
+    func doTimelineDownload() {
+        
+        let paramDict = ["count": 50]
+        timelineDownloadTask = HttpTwitterClient.shared.fetchHomeTimeline(parameters: paramDict,
+            success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
+                
+                if let tweetDictArray = tweetDictArray as? [NSDictionary] {
+                    let tweetArray: [Tweet] = Tweet.tweetsWithArray(tweetDicts: tweetDictArray)
+                    if tweetArray.count > 0 {
+                        self.userTimeline = tweetArray
+                    }
+                }
+                
+            },
+            failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                dlog("error fetching timeline: \(error)")
+                                                                            
+        })
+        
+        dlog("task: \(timelineDownloadTask)")
+    
+    }
 }

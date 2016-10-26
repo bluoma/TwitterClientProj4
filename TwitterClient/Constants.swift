@@ -64,7 +64,8 @@ let twitterOauthRequestTokenPath = "oauth/request_token"
 let twitterOauthAccessTokenPath = "oauth/access_token"
 let twitterCurrentUserPath = "1.1/account/verify_credentials.json"
 let twitterHomeTimelinePath = "1.1/statuses/home_timeline.json"
-
-
-
+let twitterUserDetailPath = "1.1/users/show.json"
+let twitterTweetCreatePath = "1.1/statuses/update.json"
+let twitterTweetRetweetPath = "1.1/statuses/retweet/%@.json"
+let twitterTweetDetailPath = "1.1/statuses/show.json"
 

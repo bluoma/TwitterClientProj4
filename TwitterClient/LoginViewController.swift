@@ -50,7 +50,10 @@ class LoginViewController: UIViewController {
         }
         
         if segueName == "LoginToHomeModalSegue" {
-            
+         
+            let navVc = segue.destination as! UINavigationController
+            let homeVc = navVc.topViewController as! HomeViewController
+            homeVc.currentUser = sender as! User
         }
         
     }
@@ -61,49 +64,35 @@ class LoginViewController: UIViewController {
     @IBAction func loginButtonPressed(_ sender: AnyObject) {
         dlog("")
         
-        HttpTwitterClient.shared.deauthorize()
-        HttpTwitterClient.shared.fetchRequestToken(withPath: twitterOauthRequestTokenPath, method: "GET", callbackURL: oauth1CallBackUrl, scope: nil,
-            success: { (requestToken: BDBOAuth1Credential?) -> Void in
-                                            
-                dlog("requestToken: \(requestToken?.token)")
-                
-                if let requestTokenString = requestToken?.token {
-                
-                    if let authUrl = URL(string: "\(twitterAuthorizationUrl)?oauth_token=\(requestTokenString)") {
-                        dlog("authUrl: \(authUrl)")
-                        UIApplication.shared.open(authUrl)
-                    }
-                    else {
-                        dlog("bad auth url")
-                    }
-                }
-                else {
-                    dlog("bad request token")
-                }
+        HttpTwitterClient.shared.login(
+            success: { (accessToken: BDBOAuth1Credential?) in
+                NotificationCenter.default.post(name: didReceiveOauthTokenNotification, object: accessToken)
+                dlog("login success: \(accessToken?.token)")
             },
-            failure: { (error: Error?) -> Void in
-                dlog("error: \(error)")
+            failure: { (error: Error?) in
+                dlog("login error: \(error)")
         })
     }
 
     
-    func oathTokenListener(notification:Notification) -> Void {
+    func oathTokenListener(notification: Notification) -> Void {
         
-        dlog("notif: \(notification)")
-        dlog("token: \(oauthAccessToken)")
+        //dlog("notif: \(notification)")
+        dlog("access token: \(oauthAccessToken)")
         
         let utask = HttpTwitterClient.shared.fetchCurrentUser(parameters: nil,
             success: { (task: URLSessionDataTask, userDict: Any?) -> Void in
                                                                 
-                dlog("userDict: \(userDict)")
                 
-                self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: self)
-
                 if let userDict = userDict as? NSDictionary {
                     
                     let user = User(dictionary: userDict)
                     
-                    dlog("user: \(user)")
+                    if user.userId != nil {
+                        self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: user)
+                    }
+
+                    //dlog("user: \(user)")
                 }
                 
             },
