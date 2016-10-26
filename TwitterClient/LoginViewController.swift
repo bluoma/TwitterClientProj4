@@ -81,29 +81,16 @@ class LoginViewController: UIViewController {
         dlog("access token: \(oauthAccessToken)")
         
         let utask = HttpTwitterClient.shared.fetchCurrentUser(parameters: nil,
-            success: { (task: URLSessionDataTask, userDict: Any?) -> Void in
+            success: { (user: User) -> Void in
                                                                 
-                
-                if let userDict = userDict as? NSDictionary {
-                    
-                    let user = User(dictionary: userDict)
-                    
-                    if user.userId != nil {
-                        self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: user)
-                    }
-
-                    //dlog("user: \(user)")
-                }
-                
+                self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: user)
+                                    
             },
-            failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            failure: { (error: Error) -> Void in
                 dlog("error getting current user: \(error)")
-                                                                
         })
         
         dlog("task: \(utask)")
-        
     }
-    
 }
 

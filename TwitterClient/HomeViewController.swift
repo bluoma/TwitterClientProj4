@@ -83,19 +83,14 @@ class HomeViewController: UIViewController {
         
         let paramDict = ["count": 50]
         timelineDownloadTask = HttpTwitterClient.shared.fetchHomeTimeline(parameters: paramDict,
-            success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
+            success: { (tweetArray: [Tweet]) -> Void in
                 
-                if let tweetDictArray = tweetDictArray as? [NSDictionary] {
-                    let tweetArray: [Tweet] = Tweet.tweetsWithArray(tweetDicts: tweetDictArray)
-                    if tweetArray.count > 0 {
-                        self.userTimeline = tweetArray
-                    }
+                if tweetArray.count > 0 {
+                    self.userTimeline = tweetArray
                 }
-                
             },
-            failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            failure: { (error: Error) -> Void in
                 dlog("error fetching timeline: \(error)")
-                                                                            
         })
         
         dlog("task: \(timelineDownloadTask)")
