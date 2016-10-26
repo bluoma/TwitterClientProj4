@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loginButton.layer.cornerRadius = 5
         dlog("")
     }
 
@@ -69,6 +70,9 @@ class LoginViewController: UIViewController {
         dlog("notif: \(notification)")
         dlog("token: \(oauthAccessToken)")
         
+        self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: self)
+        
+        /*
         let task = HttpTwitterClient.shared.fetchHomeTimeline(parameters: nil,
             success: { (task: URLSessionDataTask, data: Any?) -> Void in
             
@@ -94,7 +98,7 @@ class LoginViewController: UIViewController {
         })
         
         dlog("task: \(utask)")
-
+        */
     }
     
 }

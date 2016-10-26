@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="szr-Dl-JLh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -18,11 +18,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbN-sB-63n">
-                                <frame key="frameInset" minX="52" minY="382" width="270" height="113"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="twitter_start_bg" translatesAutoresizingMaskIntoConstraints="NO" id="4Gh-es-Knx" userLabel="BackgroundIV">
+                                <frame key="frameInset" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.43874391913414001" green="0.73455506563186646" blue="0.9137953519821167" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Login to Twitter"/>
+                                <color key="backgroundColor" red="0.1137254902" green="0.63137254899999995" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbN-sB-63n" userLabel="LoginBTN">
+                                <frame key="frameInset" minX="84" minY="455" width="207" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <state key="normal" title="Log In">
+                                    <color key="titleColor" red="0.1906150096" green="0.61988520810000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U9q-l5-6Ax"/>
                                 </connections>
@@ -33,29 +41,65 @@
                     <navigationItem key="navigationItem" title="Login" id="wKo-QN-Myh"/>
                     <connections>
                         <outlet property="loginButton" destination="cbN-sB-63n" id="BJ9-7K-X12"/>
+                        <segue destination="eAn-uR-UFt" kind="presentation" identifier="LoginToHomeModalSegue" id="IFu-Oa-i0y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1186.4000000000001" y="776.76161919040487"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="wWP-NV-PTE">
+        <!--HomeViewController-->
+        <scene sceneID="GAT-fk-8Od">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="szr-Dl-JLh" sceneMemberID="viewController">
+                <viewController id="S6C-M1-Mev" userLabel="HomeViewController" customClass="HomeViewController" customModule="TwitterClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R13-9r-Mby"/>
+                        <viewControllerLayoutGuide type="bottom" id="TrW-Aw-ycR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jBs-iY-V1k">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Home" id="t5p-Ue-RV7">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="ivO-Ta-clO"/>
+                        <barButtonItem key="leftBarButtonItem" title="Sign Out" id="AVf-OW-aCc">
+                            <connections>
+                                <action selector="signOutPressed:" destination="S6C-M1-Mev" id="zzH-44-cLP"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="GJi-gl-fqI" userLabel="New">
+                            <connections>
+                                <action selector="newPressed:" destination="S6C-M1-Mev" id="p8Y-nY-vJU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedStatusBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Ol-t4-Vms" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3239" y="777"/>
+        </scene>
+        <!--HomeNavigationController-->
+        <scene sceneID="xDC-9B-4Qq">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eAn-uR-UFt" userLabel="HomeNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l34-YY-0Mp">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k1a-Lj-RkX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="jjc-y8-pPe"/>
+                        <segue destination="S6C-M1-Mev" kind="relationship" relationship="rootViewController" id="Icm-vQ-7cr"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qsA-Se-ZTR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nIr-C6-07S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="117.59999999999999" y="776.76161919040487"/>
+            <point key="canvasLocation" x="2271" y="777"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="twitter_start_bg" width="768" height="1024"/>
+    </resources>
 </document>
