@@ -27,6 +27,7 @@ class LoginViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         dlog("")
+        NotificationCenter.default.removeObserver(self, name: didReceiveOauthTokenNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -37,19 +38,15 @@ class LoginViewController: UIViewController {
     @IBAction func loginButtonPressed(_ sender: AnyObject) {
         dlog("")
         
-        let baseUrl = URL(string: "https://api.twitter.com")
-    
-        let twitterClient = BDBOAuth1SessionManager(baseURL: baseUrl, consumerKey: consumerKey, consumerSecret: consumerSecret)
-        
-        twitterClient?.deauthorize()
-        twitterClient?.fetchRequestToken(withPath: "oauth/request_token", method: "GET", callbackURL: oauth1CallBackUrl, scope: nil,
+        HttpTwitterClient.shared.deauthorize()
+        HttpTwitterClient.shared.fetchRequestToken(withPath: twitterOauthRequestTokenPath, method: "GET", callbackURL: oauth1CallBackUrl, scope: nil,
             success: { (requestToken: BDBOAuth1Credential?) -> Void in
                                             
                 dlog("requestToken: \(requestToken?.token)")
                 
                 if let requestTokenString = requestToken?.token {
                 
-                    if let authUrl = URL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(requestTokenString)") {
+                    if let authUrl = URL(string: "\(twitterAuthorizationUrl)?oauth_token=\(requestTokenString)") {
                         dlog("authUrl: \(authUrl)")
                         UIApplication.shared.open(authUrl)
                     }
@@ -68,9 +65,36 @@ class LoginViewController: UIViewController {
 
     
     func oathTokenListener(notification:Notification) -> Void {
+        
         dlog("notif: \(notification)")
         dlog("token: \(oauthAccessToken)")
         
+        let task = HttpTwitterClient.shared.fetchHomeTimeline(parameters: nil,
+            success: { (task: URLSessionDataTask, data: Any?) -> Void in
+            
+                dlog("data: \(data)")
+            
+            },
+            failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                dlog("error: \(error)")
+                                                    
+        })
+        
+        dlog("task: \(task)")
+       
+        let utask = HttpTwitterClient.shared.fetchCurrentUser(parameters: nil,
+            success: { (task: URLSessionDataTask, data: Any?) -> Void in
+                                                                
+                dlog("data: \(data)")
+                                                                
+            },
+            failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                dlog("error: \(error)")
+                                                                
+        })
+        
+        dlog("task: \(utask)")
+
     }
     
 }

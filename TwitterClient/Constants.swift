@@ -49,11 +49,22 @@ func getDocumentsDirectory() -> URL {
 
 //MARK: - oauth1a
 
+let twitterApiEndPointUrlString = "https://api.twitter.com"
+let twitterApiEndPointUrl: URL = URL(string:twitterApiEndPointUrlString)!
 let consumerKey = "52LAxu5pHerDedZznOe0pMfJ6"
 let consumerSecret = "TzgDLpTTPvqPV9zezDZrsVY8lj4MyTsTMZl1vVtsiqIRGgld4m"
 let oauth1CallBackUrl = URL(string: "btweeter://oauth")!
+
 var oauthAccessToken: String? = nil
 var oauthVerifierToken: String? = nil
+
 let didReceiveOauthTokenNotification = Notification.Name(rawValue: "didReceiveOauthTokenNotification")
+let twitterAuthorizationUrl = "https://api.twitter.com/oauth/authorize"
+let twitterOauthRequestTokenPath = "oauth/request_token"
+let twitterOauthAccessTokenPath = "oauth/access_token"
+let twitterCurrentUserPath = "1.1/account/verify_credentials.json"
+let twitterHomeTimelinePath = "1.1/statuses/home_timeline.json"
+
+
 
 

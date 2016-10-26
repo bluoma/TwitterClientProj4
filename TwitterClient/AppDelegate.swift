@@ -46,27 +46,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         dlog("url: \(url)")
         var validUrl = false
+        
         if let oauthCred = BDBOAuth1Credential(queryString: url.query) {
             dlog("oauthCred: \(oauthCred)")
             validUrl = true
-            let baseUrl = URL(string: "https://api.twitter.com")
         
-            let twitterClient = BDBOAuth1SessionManager(baseURL: baseUrl, consumerKey: consumerKey, consumerSecret: consumerSecret)
-        
-            twitterClient?.fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken: oauthCred,
+            HttpTwitterClient.shared.fetchAccessToken(withPath: twitterOauthAccessTokenPath, method: "POST", requestToken: oauthCred,
                 success: { (accessToken: BDBOAuth1Credential?) in
-                                                
-                    dlog("\(accessToken)")
-                    
                     oauthAccessToken = accessToken?.token
+                    oauthVerifierToken = accessToken?.verifier
                     NotificationCenter.default.post(name: didReceiveOauthTokenNotification, object: accessToken)
-
-                    
                 },
                 failure: { (error: Error?) in
                     dlog("\(error)")
             })
-
         }
         return validUrl
     }
