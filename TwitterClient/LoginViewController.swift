@@ -35,7 +35,29 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+        dlog("segue: \(segue.identifier)")
+        
+        guard let segueName = segue.identifier else {
+            alog("segue has no name")
+            return;
+        }
+        
+        if segueName == "LoginToHomeModalSegue" {
+            
+        }
+        
+    }
+    
 
+    
+    //MARK: - actions
     @IBAction func loginButtonPressed(_ sender: AnyObject) {
         dlog("")
         
@@ -70,35 +92,28 @@ class LoginViewController: UIViewController {
         dlog("notif: \(notification)")
         dlog("token: \(oauthAccessToken)")
         
-        self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: self)
-        
-        /*
-        let task = HttpTwitterClient.shared.fetchHomeTimeline(parameters: nil,
-            success: { (task: URLSessionDataTask, data: Any?) -> Void in
-            
-                dlog("data: \(data)")
-            
-            },
-            failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-                dlog("error: \(error)")
-                                                    
-        })
-        
-        dlog("task: \(task)")
-       
         let utask = HttpTwitterClient.shared.fetchCurrentUser(parameters: nil,
-            success: { (task: URLSessionDataTask, data: Any?) -> Void in
+            success: { (task: URLSessionDataTask, userDict: Any?) -> Void in
                                                                 
-                dlog("data: \(data)")
-                                                                
+                dlog("userDict: \(userDict)")
+                
+                self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: self)
+
+                if let userDict = userDict as? NSDictionary {
+                    
+                    let user = User(dictionary: userDict)
+                    
+                    dlog("user: \(user)")
+                }
+                
             },
             failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-                dlog("error: \(error)")
+                dlog("error getting current user: \(error)")
                                                                 
         })
         
         dlog("task: \(utask)")
-        */
+        
     }
     
 }

@@ -10,12 +10,45 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    
+    var timelineDownloadTask: URLSessionDataTask?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+         timelineDownloadTask = HttpTwitterClient.shared.fetchHomeTimeline(parameters: nil,
+             success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
+         
+                 dlog("data: \(tweetDictArray)")
+         
+             },
+             failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                 dlog("error fetching timeline: \(error)")
+         
+         })
+         
+         dlog("task: \(timelineDownloadTask)")
+
+    
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        dlog("")
+       
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        dlog("")
+        if let timelineDownloadTask = timelineDownloadTask {
+            if timelineDownloadTask.state == .running {
+                timelineDownloadTask.cancel()
+            }
+        }
+    }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
