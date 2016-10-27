@@ -24,8 +24,13 @@ class Tweet: NSObject {
     
     var creator: User?
     
+    override init() {
+        super.init()
+    }
     
-    init(dictionary: NSDictionary) {
+    convenience init(dictionary: NSDictionary) {
+        
+        self.init()
         
         tweetId = dictionary["id_str"] as? String
         tweetText = dictionary["text"] as? String

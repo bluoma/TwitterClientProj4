@@ -61,11 +61,11 @@ class User: NSObject {
                 }
                 catch let jerr as NSError {
                     dlog("json Error: \(jerr)")
-                    defaults.setNilValueForKey("currentUserDataKey")
+                    defaults.set(nil, forKey: "currentUserDataKey")
                 }
             }
             else {
-                defaults.setNilValueForKey("currentUserDataKey")
+                defaults.set(nil, forKey: "currentUserDataKey")
             }
             defaults.synchronize()
             

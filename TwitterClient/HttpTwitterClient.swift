@@ -28,7 +28,7 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
         onLoginSuccess = success
         onLoginFailure = failure
         
-        //deauthorize()
+        deauthorize()
         
         fetchRequestToken(withPath: twitterOauthRequestTokenPath, method: "GET", callbackURL: oauth1CallBackUrl, scope: nil,
             success: { (requestToken: BDBOAuth1Credential?) -> Void in

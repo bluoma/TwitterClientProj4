@@ -29,15 +29,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let homeVc = homeNavVC.topViewController as! HomeViewController
             homeVc.currentUser = user
-            window = UIWindow(frame: UIScreen.main.bounds)
             window?.rootViewController = homeNavVC
             window?.makeKeyAndVisible()
+            
         }
         else {
-            dlog("user is nil")
+            dlog("user is nil, loading login vc")
         }
         
+        NotificationCenter.default.addObserver(forName: userDidLogoutNotification, object: nil, queue: nil, using: didLogoutListener)
+        
+
         return true
+    }
+    
+    func didLogoutListener(notification: Notification) -> Void {
+        let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
+        let loginVC = mainStoryBoard.instantiateInitialViewController() as! LoginViewController
+        window?.rootViewController = loginVC
+        window?.makeKeyAndVisible()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

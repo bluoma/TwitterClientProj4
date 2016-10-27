@@ -10,12 +10,16 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    @IBOutlet weak var tweetsTableView: UITableView!
     
     var timelineDownloadTask: URLSessionDataTask?
     var currentUser: User!
     var userTimeline: [Tweet] = [] {
         didSet {
             dlog("tweetCount: \(userTimeline.count)")
+            if userTimeline.count > 0 {
+                tweetsTableView.reloadData()
+            }
         }
     }
     
@@ -65,22 +69,41 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func signOutPressed(_ sender: AnyObject) {
-        self.dismiss(animated: true, completion: nil)
-        dlog("")
+        
+        HttpTwitterClient.shared.logout()
+        
+        if let presenting = self.presentingViewController {
+            dlog("presenting: \(presenting)")
+            self.dismiss(animated: true, completion: nil)
+        }
+        else {  //we jumped here via 'autologin' and there's no loginVc backing us,
+                //so tell the window to reload
+                //from the root of the storyboard
+            
+            dlog("no login vc behind us, reload")
+            NotificationCenter.default.post(name: userDidLogoutNotification, object: nil)
+        }
+        
     }
 
     @IBAction func newPressed(_ sender: AnyObject) {
         dlog("")
+        
+        let emptyTweet = Tweet()
+        performSegue(withIdentifier: "NewTweetModalSegue", sender: emptyTweet)
     }
-    /*
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        dlog("segue: \(segue)")
     }
-    */
+    
 
     func doTimelineDownload() {
         
@@ -98,5 +121,37 @@ class HomeViewController: UIViewController {
         
         dlog("task: \(timelineDownloadTask)")
     
+    }
+}
+
+
+
+extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return userTimeline.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath)
+        
+        let tweet = userTimeline[indexPath.row]
+        
+        cell.textLabel?.text = tweet.tweetText
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        dlog("indexPath: \(indexPath)")
+        let tweet = userTimeline[indexPath.row]
+
+        performSegue(withIdentifier: "TweetDetailPushSegue", sender: tweet)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
     }
 }

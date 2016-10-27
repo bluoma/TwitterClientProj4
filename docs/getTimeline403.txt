@@ -34,3 +34,16 @@ This is an Xcode 8.0 bug. SecItemAdd/Update always returns -34018 with Xcode 8 a
 http://stackoverflow.com/questions/38456471/secitemadd-always-returns-error-34018-in-xcode-8-in-ios-10-simulator
 
 Solution is to turn on Keychain Sharing in your target's Capabilities section, or maybe try the iOS 9.3 simulator.
+
+The former solution adds a file called TwitterClient.entitlements to you project tree.
+The contents for my project are:
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.bluoma.TwitterClient</string>
+	</array>
+</dict>
+</plist>
