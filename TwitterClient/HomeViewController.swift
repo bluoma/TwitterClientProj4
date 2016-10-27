@@ -43,6 +43,9 @@ class HomeViewController: UIViewController {
             return
         }
         
+        let isAuth = HttpTwitterClient.shared.isAuthorized
+        dlog("isAuthorized: \(isAuth)")
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

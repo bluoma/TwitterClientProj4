@@ -1,0 +1,36 @@
+GET /1.1/statuses/home_timeline.json?count=50 HTTP/1.1
+Host: api.twitter.com
+Connection: keep-alive
+Accept: */*
+User-Agent: TwitterClient/1.0 (iPhone; iOS 10.0; Scale/2.00)
+Accept-Language: en;q=1
+Authorization: OAuth oauth_consumer_key="52LAxu5pHerDedZznOe0pMfJ6", oauth_nonce="6bNR4WzGRUC9dpYE0ip%2F9Q%3D%3D", oauth_signature="SVJ4ve7FL44XPjgB2hjPQIDidXA%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1477535979", oauth_version="1.0"
+Accept-Encoding: gzip, deflate
+
+
+HTTP/1.1 403 Forbidden
+content-encoding: gzip
+content-length: 106
+content-type: application/json;charset=utf-8
+date: Thu, 27 Oct 2016 02:39:42 GMT
+server: tsa_a
+set-cookie: guest_id=v1%3A147753598273272275; Domain=.twitter.com; Path=/; Expires=Sat, 27-Oct-2018 02:39:42 UTC
+strict-transport-security: max-age=631138519
+x-connection-hash: d4d52cd1e5ab6aace7c445d16906aa70
+x-response-time: 5
+Connection: Keep-alive
+
+{"errors":[{"message":"Your credentials do not allow access to this resource","code":220}]}
+
+
+
+
+TwitterClient -[BDBOAuth1RequestSerializer saveAccessToken:] addToken status: -34018
+TwitterClient -[BDBOAuth1RequestSerializer saveAccessToken:] updateToken status: -34018
+
+errSecMissingEntitlement     = -34018,  /* Internal error when a required entitlement isn't present. */
+
+This is an Xcode 8.0 bug. SecItemAdd/Update always returns -34018 with Xcode 8 and ios 10 simulator. (device is ok). reported not to fail on ios 9.3 simulator.
+http://stackoverflow.com/questions/38456471/secitemadd-always-returns-error-34018-in-xcode-8-in-ios-10-simulator
+
+Solution is to turn on Keychain Sharing in your target's Capabilities section, or maybe try the iOS 9.3 simulator.

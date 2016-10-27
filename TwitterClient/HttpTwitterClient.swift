@@ -18,12 +18,17 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
     var onLoginFailure: ((Error?) -> Void)? = nil
     var failedToGetRequestToken = false
     
+    func logout() {
+        User.currentUser = nil
+        deauthorize()
+    }
+    
     func login(success: @escaping (BDBOAuth1Credential?) -> Void, failure: @escaping (Error?) -> Void) -> Void {
         
         onLoginSuccess = success
         onLoginFailure = failure
         
-        deauthorize()
+        //deauthorize()
         
         fetchRequestToken(withPath: twitterOauthRequestTokenPath, method: "GET", callbackURL: oauth1CallBackUrl, scope: nil,
             success: { (requestToken: BDBOAuth1Credential?) -> Void in

@@ -17,6 +17,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let isAuth = HttpTwitterClient.shared.isAuthorized
+        dlog("isAuthorized: \(isAuth)")
+        
+        if let user = User.currentUser {
+            dlog("got a user: \(user)")
+            let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let homeNavVC = mainStoryBoard.instantiateViewController(withIdentifier: "HomeNavigationController") as! UINavigationController
+            
+            let homeVc = homeNavVC.topViewController as! HomeViewController
+            homeVc.currentUser = user
+            window = UIWindow(frame: UIScreen.main.bounds)
+            window?.rootViewController = homeNavVC
+            window?.makeKeyAndVisible()
+        }
+        else {
+            dlog("user is nil")
+        }
+        
         return true
     }
 

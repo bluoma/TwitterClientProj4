@@ -33,6 +33,7 @@
 		D2AE7A9E1DBE825100660EC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D2AE7AA01DBE825100660EC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2AE7AA91DBEC74400660EC1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D2CC8BDF1DC1BD5900744660 /* TwitterClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwitterClient.entitlements; sourceTree = "<group>"; };
 		D2DB4C4C1DBFB58600A7B1C8 /* HttpTwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpTwitterClient.swift; sourceTree = "<group>"; };
 		D2DB4C751DC079DC00A7B1C8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F487948372736C8080AC9726 /* Pods_TwitterClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitterClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +89,7 @@
 		D2AE7A931DBE825100660EC1 /* TwitterClient */ = {
 			isa = PBXGroup;
 			children = (
+				D2CC8BDF1DC1BD5900744660 /* TwitterClient.entitlements */,
 				D2DB4C4B1DBFB51D00A7B1C8 /* Utils */,
 				D2DB4C471DBFB4EC00A7B1C8 /* Models */,
 				D2DB4C481DBFB4FF00A7B1C8 /* Views */,
@@ -178,8 +180,13 @@
 				TargetAttributes = {
 					D2AE7A901DBE825100660EC1 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = CU9NJ973KF;
+						DevelopmentTeam = M96UWZCD49;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -397,7 +404,8 @@
 			baseConfigurationReference = 692653321AD3D3D50FB24E08 /* Pods-TwitterClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CU9NJ973KF;
+				CODE_SIGN_ENTITLEMENTS = TwitterClient/TwitterClient.entitlements;
+				DEVELOPMENT_TEAM = M96UWZCD49;
 				INFOPLIST_FILE = TwitterClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluoma.TwitterClient;
@@ -411,7 +419,8 @@
 			baseConfigurationReference = 08ACFB56FAE5583A356347AA /* Pods-TwitterClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CU9NJ973KF;
+				CODE_SIGN_ENTITLEMENTS = TwitterClient/TwitterClient.entitlements;
+				DEVELOPMENT_TEAM = M96UWZCD49;
 				INFOPLIST_FILE = TwitterClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluoma.TwitterClient;

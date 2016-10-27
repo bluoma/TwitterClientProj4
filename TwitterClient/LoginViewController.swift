@@ -22,13 +22,13 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dlog("")
-        NotificationCenter.default.addObserver(forName: didReceiveOauthTokenNotification, object: nil, queue: nil, using: oathTokenListener)
+        NotificationCenter.default.addObserver(forName: userDidLoginNotification, object: nil, queue: nil, using: oathTokenListener)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         dlog("")
-        NotificationCenter.default.removeObserver(self, name: didReceiveOauthTokenNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: userDidLoginNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,8 +66,9 @@ class LoginViewController: UIViewController {
         
         HttpTwitterClient.shared.login(
             success: { (accessToken: BDBOAuth1Credential?) in
-                NotificationCenter.default.post(name: didReceiveOauthTokenNotification, object: accessToken)
-                dlog("login success: \(accessToken?.token)")
+                let acSaved = HttpTwitterClient.shared.requestSerializer.saveAccessToken(accessToken!)
+                NotificationCenter.default.post(name: userDidLoginNotification, object: accessToken)
+                dlog("login success got access token: \(accessToken?.token) saveAccessTokenStatus: \(acSaved)")
             },
             failure: { (error: Error?) in
                 dlog("login error: \(error)")
@@ -82,7 +83,9 @@ class LoginViewController: UIViewController {
         
         let utask = HttpTwitterClient.shared.fetchCurrentUser(parameters: nil,
             success: { (user: User) -> Void in
-                                                                
+                
+                dlog("user: \(user)")
+                User.currentUser = user
                 self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: user)
                                     
             },

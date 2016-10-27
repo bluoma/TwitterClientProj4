@@ -255,9 +255,13 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 
     if (self.accessToken) {
         status = SecItemUpdate((__bridge CFDictionaryRef)dictionary, (__bridge CFDictionaryRef)updateDictionary);
+        
+        NSLog(@"%s updateToken status: %d", __PRETTY_FUNCTION__, status);
+        
     } else {
         [dictionary addEntriesFromDictionary:updateDictionary];
         status = SecItemAdd((__bridge CFDictionaryRef)dictionary, NULL);
+        NSLog(@"%s addToken status: %d", __PRETTY_FUNCTION__, status);
     }
 
     _accessToken = accessToken;

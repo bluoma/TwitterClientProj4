@@ -58,7 +58,8 @@ let oauth1CallBackUrl = URL(string: "btweeter://oauth")!
 var oauthAccessToken: String? = nil
 var oauthVerifierToken: String? = nil
 
-let didReceiveOauthTokenNotification = Notification.Name(rawValue: "didReceiveOauthTokenNotification")
+let userDidLoginNotification = Notification.Name(rawValue: "userDidLoginNotification")
+let userDidLogoutNotification = Notification.Name(rawValue: "userDidLogoutNotification")
 let twitterAuthorizationUrl = "https://api.twitter.com/oauth/authorize"
 let twitterOauthRequestTokenPath = "oauth/request_token"
 let twitterOauthAccessTokenPath = "oauth/access_token"
