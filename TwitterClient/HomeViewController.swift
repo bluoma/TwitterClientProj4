@@ -72,17 +72,17 @@ class HomeViewController: UIViewController {
         
         HttpTwitterClient.shared.logout()
         
-        if let presenting = self.presentingViewController {
-            dlog("presenting: \(presenting)")
-            self.dismiss(animated: true, completion: nil)
-        }
-        else {  //we jumped here via 'autologin' and there's no loginVc backing us,
+        //if let presenting = self.presentingViewController {
+        //    dlog("presenting: \(presenting)")
+        //    self.dismiss(animated: true, completion: nil)
+        //}
+        //else {  //we jumped here via 'autologin' and there's no loginVc backing us,
                 //so tell the window to reload
                 //from the root of the storyboard
             
-            dlog("no login vc behind us, reload")
-            NotificationCenter.default.post(name: userDidLogoutNotification, object: nil)
-        }
+            //dlog("no login vc behind us, reload")
+        NotificationCenter.default.post(name: userDidLogoutNotification, object: nil)
+        //}
         
     }
 
@@ -90,7 +90,18 @@ class HomeViewController: UIViewController {
         dlog("")
         
         let emptyTweet = Tweet()
-        performSegue(withIdentifier: "NewTweetModalSegue", sender: emptyTweet)
+        //performSegue(withIdentifier: "NewTweetModalSegue", sender: emptyTweet)
+        
+        let pc = UIPrintInteractionController.shared
+        
+        pc.printingItem = UIImage(named: "twitter_start_bg")
+            
+        pc.present(animated: true) { (ctlr: UIPrintInteractionController, done: Bool, error: Error?) in
+            
+            dlog("bool param: \(done), error: \(error)")
+        }
+        
+        
     }
     
     
@@ -102,6 +113,18 @@ class HomeViewController: UIViewController {
         // Pass the selected object to the new view controller.
         
         dlog("segue: \(segue)")
+        
+        guard let segueName = segue.identifier else {
+            return
+        }
+        
+        if segueName == "TweetDetailPushSegue" {
+            let destVc: TweetDetailViewController = segue.destination as! TweetDetailViewController
+            if let tweet = sender as? Tweet {
+                destVc.tweet = tweet
+            }
+            
+        }
     }
     
 
@@ -133,25 +156,31 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         return userTimeline.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120.0
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         
         let tweet = userTimeline[indexPath.row]
         
-        cell.textLabel?.text = tweet.tweetText
+        cell.configureCell(tweet: tweet, indexPath: indexPath)
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         dlog("indexPath: \(indexPath)")
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+
         let tweet = userTimeline[indexPath.row]
 
         performSegue(withIdentifier: "TweetDetailPushSegue", sender: tweet)
         
-        tableView.deselectRow(at: indexPath, animated: true)
         
     }
 }

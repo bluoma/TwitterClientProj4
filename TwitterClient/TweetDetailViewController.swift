@@ -10,10 +10,13 @@ import UIKit
 
 class TweetDetailViewController: UIViewController {
 
+    var tweet: Tweet!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        dlog("tweet: \(tweet)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,6 +24,25 @@ class TweetDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        dlog("")
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        dlog("")
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        dlog("")
+        
+    }
+    
+
 
     /*
     // MARK: - Navigation

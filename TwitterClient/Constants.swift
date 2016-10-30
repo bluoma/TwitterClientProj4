@@ -6,7 +6,7 @@
 //  Copyright © 2016 Bill Luoma. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 //MARK: - dlog
 func dlog(_ message: String, _ filePath: String = #file, _ functionName: String = #function, _ lineNum: Int = #line)
@@ -70,3 +70,4 @@ let twitterTweetCreatePath = "1.1/statuses/update.json"
 let twitterTweetRetweetPath = "1.1/statuses/retweet/%@.json"
 let twitterTweetDetailPath = "1.1/statuses/show.json"
 
+let twitterBlue = UIColor(red: 29, green: 161, blue: 242, alpha: 1.0)
