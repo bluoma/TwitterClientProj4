@@ -165,7 +165,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         
         let tweet = userTimeline[indexPath.row]
-        
+        cell.delegate = self
         cell.configureCell(tweet: tweet, indexPath: indexPath)
         
         return cell
@@ -182,5 +182,15 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         performSegue(withIdentifier: "TweetDetailPushSegue", sender: tweet)
         
         
+    }
+    
+}
+
+
+extension HomeViewController: TweetCellActionDelegate {
+    
+    func cellButtonPressed(cell: TweetTableViewCell, buttonIndex: Int) {
+    
+        dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
     }
 }

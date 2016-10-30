@@ -11,10 +11,10 @@ import UIKit
 class DetailActionsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var replyButton: UIButton!
-    
     @IBOutlet weak var retweetButton: UIButton!
-    
     @IBOutlet weak var favButton: UIButton!
+    
+    var indexPath: IndexPath!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,6 +39,12 @@ class DetailActionsTableViewCell: UITableViewCell {
     
     @IBAction func favButtonPressed(_ sender: AnyObject) {
         dlog("")
+    }
+
+    func configureCell(tweet: Tweet, indexPath: IndexPath) {
+        dlog("")
+        
+        
     }
 
     

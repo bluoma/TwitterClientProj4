@@ -11,9 +11,10 @@ import UIKit
 class DetailCountsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var retweetCountLabel: UILabel!
-    
     @IBOutlet weak var favCountLabel: UILabel!
     
+    var indexPath: IndexPath!
+
     
     
     override func awakeFromNib() {
@@ -25,6 +26,26 @@ class DetailCountsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func configureCell(tweet: Tweet, indexPath: IndexPath) {
+        
+        
+        if let retreetCount = tweet.retweetCount {
+            retweetCountLabel.text = "\(retreetCount)"
+        }
+        else {
+            retweetCountLabel.text = ""
+        }
+        
+        if let favCount = tweet.favoriteCount {
+            favCountLabel.text = "\(favCount)"
+        }
+        else {
+            favCountLabel.text = ""
+        }
+
+        
     }
 
 }
