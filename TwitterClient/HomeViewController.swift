@@ -90,17 +90,7 @@ class HomeViewController: UIViewController {
         dlog("")
         
         let emptyTweet = Tweet()
-        //performSegue(withIdentifier: "NewTweetModalSegue", sender: emptyTweet)
-        
-        let pc = UIPrintInteractionController.shared
-        
-        pc.printingItem = UIImage(named: "twitter_start_bg")
-            
-        pc.present(animated: true) { (ctlr: UIPrintInteractionController, done: Bool, error: Error?) in
-            
-            dlog("bool param: \(done), error: \(error)")
-        }
-        
+        performSegue(withIdentifier: "NewTweetModalSegue", sender: emptyTweet)
         
     }
     
@@ -191,6 +181,17 @@ extension HomeViewController: TweetCellActionDelegate {
     
     func cellButtonPressed(cell: TweetTableViewCell, buttonIndex: Int) {
     
-        dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
+        //dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
+        
+        if buttonIndex == 0 {
+            newPressed(self)
+        }
+        else if buttonIndex == 1 {
+            //retweet
+        }
+        else if buttonIndex == 2 {
+            //fav
+        }
+
     }
 }

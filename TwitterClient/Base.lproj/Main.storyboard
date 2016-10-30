@@ -203,7 +203,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3BK-wQ-Sfb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4842" y="-2"/>
+            <point key="canvasLocation" x="4962" y="19"/>
         </scene>
         <!--TweetViewController-->
         <scene sceneID="HgB-tT-Jxv">
@@ -325,7 +325,8 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="reply-action_0"/>
                                                     <connections>
-                                                        <action selector="replyButtonPressed:" destination="JGw-MU-7cO" eventType="touchUpInside" id="y7H-4O-f7L"/>
+                                                        <action selector="replyButtonPressed:" destination="JGw-MU-7cO" eventType="touchDown" id="Ad3-Dh-Ldz"/>
+                                                        <action selector="replyButtonReleased:" destination="JGw-MU-7cO" eventType="touchUpInside" id="1dy-y5-qQC"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtM-5u-YZx" userLabel="RetweetBTN">
@@ -333,7 +334,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="retweet-action"/>
                                                     <connections>
-                                                        <action selector="retweetButtonPressed:" destination="JGw-MU-7cO" eventType="touchUpInside" id="3pp-hr-YZ2"/>
+                                                        <action selector="rewteetButtonPressed:" destination="JGw-MU-7cO" eventType="touchUpInside" id="VYE-YQ-NIm"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9cC-8q-N5c" userLabel="FavBTN">
@@ -341,15 +342,15 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="like-action"/>
                                                     <connections>
-                                                        <action selector="favButtonPressed:" destination="JGw-MU-7cO" eventType="touchUpInside" id="uua-Yu-oKO"/>
+                                                        <action selector="favButtonPressed:" destination="JGw-MU-7cO" eventType="touchUpInside" id="0Nd-9z-cjT"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="favButton" destination="9cC-8q-N5c" id="NjU-y6-ofc"/>
+                                            <outlet property="favButton" destination="9cC-8q-N5c" id="aNa-8R-Zbe"/>
                                             <outlet property="replyButton" destination="lVo-k4-3Aa" id="Jal-3i-uLI"/>
-                                            <outlet property="retweetButton" destination="rtM-5u-YZx" id="4AO-C8-WlB"/>
+                                            <outlet property="retweetButton" destination="rtM-5u-YZx" id="f6E-A2-eKS"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -370,6 +371,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tweetTableView" destination="XHN-6n-Ikm" id="SzH-2W-D9q"/>
+                        <segue destination="9r8-8p-U3E" kind="presentation" identifier="DetailToReplyModalSegue" id="y6E-jG-D9O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kaR-b4-j0w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -394,10 +396,10 @@
             </objects>
             <point key="canvasLocation" x="2271" y="777"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--NewNavigationController-->
         <scene sceneID="daq-jF-OWl">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9r8-8p-U3E" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9r8-8p-U3E" userLabel="NewNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="p0r-VJ-bcW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -419,4 +421,7 @@
         <image name="retweet-action" width="37" height="36"/>
         <image name="twitter_start_bg" width="768" height="1024"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="y6E-jG-D9O"/>
+    </inferredMetricsTieBreakers>
 </document>

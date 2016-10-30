@@ -45,19 +45,26 @@ class TweetDetailViewController: UIViewController {
     
 
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        dlog("segue: \(segue)")
+        
+        guard let segueName = segue.identifier else {
+            return
+        }
+
+        dlog("made it")
     }
-    */
+    
 
     @IBAction func replyPressed(_ sender: AnyObject) {
         
         dlog("")
+        
+        performSegue(withIdentifier: "DetailToReplyModalSegue", sender: self)
         
     }
 }
@@ -94,7 +101,6 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.row {
             
         case 0:
-            
             let tweetCell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
             tweetCell.configureCell(tweet: self.tweet, indexPath: indexPath)
             
@@ -109,7 +115,7 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
         case 2:
             let actionCell = tableView.dequeueReusableCell(withIdentifier: "DetailActionsTableViewCell", for: indexPath) as! DetailActionsTableViewCell
             actionCell.configureCell(tweet: self.tweet, indexPath: indexPath)
-
+            actionCell.delegate = self
             return actionCell
             
         default:
@@ -126,5 +132,27 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
         
         
     }
+    
 }
+
+extension TweetDetailViewController: DetailCellActionDelegate {
+    
+    func cellButtonPressed(cell: DetailActionsTableViewCell, buttonIndex: Int) {
+        
+        dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
+        
+        if buttonIndex == 0 {
+            replyPressed(cell)  //reply
+        }
+        else if buttonIndex == 1 {
+            //retweet
+        }
+        else if buttonIndex == 2 {
+            //fav
+        }
+    }
+}
+
+
+
 
