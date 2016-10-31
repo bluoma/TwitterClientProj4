@@ -35,7 +35,7 @@ class HomeViewController: UIViewController {
         }
         dlog("currentUSer: \(currentUser)")
         self.tweetsTableView.addSubview(refreshControl)
-        self.tweetsTableView.estimatedRowHeight = 140.0
+        self.tweetsTableView.estimatedRowHeight = 120.0
         self.tweetsTableView.rowHeight = UITableViewAutomaticDimension
         
         doTimelineDownload()
@@ -337,9 +337,9 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         return userTimeline.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120.0
-    }
+    //func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //    return 120.0
+    //}
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
