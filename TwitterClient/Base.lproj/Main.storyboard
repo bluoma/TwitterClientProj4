@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,15 +19,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="twitter_start_bg" translatesAutoresizingMaskIntoConstraints="NO" id="4Gh-es-Knx" userLabel="BackgroundIV">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter_start_bg" translatesAutoresizingMaskIntoConstraints="NO" id="4Gh-es-Knx" userLabel="BackgroundIV">
                                 <color key="backgroundColor" red="0.1137254902" green="0.63137254899999995" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbN-sB-63n" userLabel="LoginBTN">
-                                <frame key="frameInset" minX="84" minY="455" width="207" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbN-sB-63n" userLabel="LoginBTN">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="Lcd-mU-hGJ"/>
+                                    <constraint firstAttribute="width" constant="207" id="NUJ-TN-jeZ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Log In">
                                     <color key="titleColor" red="0.1906150096" green="0.61988520810000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -37,6 +38,14 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4Gh-es-Knx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="8Sw-x3-VRl"/>
+                            <constraint firstItem="cbN-sB-63n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YUE-Ly-9Eg"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="4Gh-es-Knx" secondAttribute="bottom" id="Zas-7M-SBr"/>
+                            <constraint firstItem="4Gh-es-Knx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fcx-lH-o1W"/>
+                            <constraint firstAttribute="trailing" secondItem="4Gh-es-Knx" secondAttribute="trailing" id="h4p-lS-1Oh"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cbN-sB-63n" secondAttribute="bottom" constant="120" id="oQQ-Eh-rUz"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="wKo-QN-Myh"/>
                     <connections>
@@ -60,10 +69,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DCJ-U9-O16" userLabel="TweetsTV">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DCJ-U9-O16" userLabel="TweetsTV">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TweetTableViewCell" rowHeight="120" id="eh2-wG-jsi" userLabel="TweetTVC" customClass="TweetTableViewCell" customModule="TwitterClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="120"/>
@@ -72,64 +80,92 @@
                                             <frame key="frameInset" width="375" height="119"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wch-Ph-We2" userLabel="AvatarIV">
-                                                    <frame key="frameInset" minX="12" minY="12" width="50" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wch-Ph-We2" userLabel="AvatarIV">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="HFu-fm-Qu1"/>
+                                                        <constraint firstAttribute="height" constant="50" id="bi2-c5-gtk"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Michael Moran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhx-ul-qfD" userLabel="ScreenLBL">
-                                                    <frame key="frameInset" minX="72" minY="12" width="95" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Michael Moran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhx-ul-qfD" userLabel="ScreenLBL">
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@TheMichaelMoran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7t-om-haL" userLabel="UserLBL">
-                                                    <frame key="frameInset" minX="186" minY="12" width="121" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="@TheMichaelMoran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7t-om-haL" userLabel="UserLBL">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4hr" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3J3-PH-N2N" userLabel="TimeLBL">
-                                                    <frame key="frameInset" minX="346" minY="12" width="21" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="4hr" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3J3-PH-N2N" userLabel="TimeLBL">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I have seen the future of newspapers and it really sucks." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lw9-VY-4iX" userLabel="TweetLBL">
-                                                    <frame key="frameInset" minX="72" minY="29" width="295" height="54"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="I have seen the future of newspapers and it really sucks." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lw9-VY-4iX" userLabel="TweetLBL">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z2d-Ow-OCr" userLabel="ReplyBTN">
-                                                    <frame key="frameInset" minX="72" minY="79" width="30" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z2d-Ow-OCr" userLabel="ReplyBTN">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="VKr-bb-YSN"/>
+                                                        <constraint firstAttribute="width" constant="30" id="VPx-QZ-jhw"/>
+                                                    </constraints>
+                                                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                     <state key="normal" image="reply-action_0"/>
                                                     <connections>
                                                         <action selector="replyButtonPressed:" destination="eh2-wG-jsi" eventType="touchDown" id="isd-O7-C8O"/>
                                                         <action selector="replyButtonReleased:" destination="eh2-wG-jsi" eventType="touchUpInside" id="rW9-49-nef"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ueY-ws-qXs" userLabel="FavBTN">
-                                                    <frame key="frameInset" minX="192" minY="79" width="30" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ueY-ws-qXs" userLabel="FavBTN">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="dvq-8J-Rgb"/>
+                                                        <constraint firstAttribute="height" constant="30" id="zXo-H3-2aW"/>
+                                                    </constraints>
+                                                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                     <state key="normal" image="like-action"/>
                                                     <connections>
                                                         <action selector="favButtonPressed:" destination="eh2-wG-jsi" eventType="touchUpInside" id="A9a-F5-mZL"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zzJ-rG-MIS" userLabel="RetweetBTN">
-                                                    <frame key="frameInset" minX="129" minY="79" width="30" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zzJ-rG-MIS" userLabel="RetweetBTN">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="Oa9-9p-9Kk"/>
+                                                        <constraint firstAttribute="height" constant="30" id="S8N-aM-pWI"/>
+                                                    </constraints>
+                                                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                     <state key="normal" image="retweet-action"/>
                                                     <connections>
                                                         <action selector="rewteetButtonPressed:" destination="eh2-wG-jsi" eventType="touchUpInside" id="xzM-oN-Gd8"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.75917636591150106" green="0.85083307907184336" blue="0.91379535199999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="zzJ-rG-MIS" firstAttribute="leading" secondItem="z2d-Ow-OCr" secondAttribute="trailing" constant="32" id="10I-Ib-c5Z"/>
+                                                <constraint firstItem="Yhx-ul-qfD" firstAttribute="leading" secondItem="Wch-Ph-We2" secondAttribute="trailing" constant="8" id="4fm-Sq-TE8"/>
+                                                <constraint firstItem="Lw9-VY-4iX" firstAttribute="leading" secondItem="Wch-Ph-We2" secondAttribute="trailing" constant="8" id="AD8-9k-I8V"/>
+                                                <constraint firstItem="Lw9-VY-4iX" firstAttribute="top" secondItem="Yhx-ul-qfD" secondAttribute="bottom" constant="2" id="B2X-BC-phj"/>
+                                                <constraint firstItem="3J3-PH-N2N" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="E7t-om-haL" secondAttribute="trailing" constant="8" id="Diq-82-6U8"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ueY-ws-qXs" secondAttribute="bottom" constant="2" id="EPb-Vr-KSb"/>
+                                                <constraint firstItem="E7t-om-haL" firstAttribute="top" secondItem="AsA-4E-YWH" secondAttribute="topMargin" constant="4" id="GkR-0P-o26"/>
+                                                <constraint firstItem="E7t-om-haL" firstAttribute="leading" secondItem="Yhx-ul-qfD" secondAttribute="trailing" constant="16" id="LQk-JS-NDG"/>
+                                                <constraint firstItem="zzJ-rG-MIS" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Lw9-VY-4iX" secondAttribute="bottom" constant="2" id="Mpd-ht-xlW"/>
+                                                <constraint firstItem="z2d-Ow-OCr" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Lw9-VY-4iX" secondAttribute="bottom" constant="2" id="OfI-ym-EfV"/>
+                                                <constraint firstItem="3J3-PH-N2N" firstAttribute="trailing" secondItem="AsA-4E-YWH" secondAttribute="trailingMargin" constant="4" id="PYn-f3-YTy"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="zzJ-rG-MIS" secondAttribute="bottom" constant="2" id="SFh-96-0VI"/>
+                                                <constraint firstAttribute="trailing" secondItem="Lw9-VY-4iX" secondAttribute="trailing" constant="8" id="UKz-qy-j8M"/>
+                                                <constraint firstItem="ueY-ws-qXs" firstAttribute="leading" secondItem="zzJ-rG-MIS" secondAttribute="trailing" constant="32" id="UhA-Xd-1qJ"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="Wch-Ph-We2" secondAttribute="bottom" constant="30" id="ZaT-OP-flL"/>
+                                                <constraint firstItem="Wch-Ph-We2" firstAttribute="top" secondItem="AsA-4E-YWH" secondAttribute="topMargin" constant="4" id="dfE-RQ-Ct2"/>
+                                                <constraint firstItem="ueY-ws-qXs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Lw9-VY-4iX" secondAttribute="bottom" constant="2" id="g1E-Rk-70g"/>
+                                                <constraint firstItem="Wch-Ph-We2" firstAttribute="leading" secondItem="AsA-4E-YWH" secondAttribute="leadingMargin" constant="4" id="gIL-e9-6vX"/>
+                                                <constraint firstItem="3J3-PH-N2N" firstAttribute="top" secondItem="AsA-4E-YWH" secondAttribute="topMargin" constant="4" id="k1A-Ho-chp"/>
+                                                <constraint firstItem="z2d-Ow-OCr" firstAttribute="leading" secondItem="AsA-4E-YWH" secondAttribute="leadingMargin" constant="64" id="mrP-LX-bkw"/>
+                                                <constraint firstItem="Yhx-ul-qfD" firstAttribute="top" secondItem="AsA-4E-YWH" secondAttribute="topMargin" constant="4" id="oO5-he-zIu"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="z2d-Ow-OCr" secondAttribute="bottom" constant="2" id="xfd-Mk-hNE"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="Wch-Ph-We2" id="sCu-zT-k9w"/>
@@ -150,6 +186,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DCJ-U9-O16" firstAttribute="top" secondItem="jBs-iY-V1k" secondAttribute="top" id="8TL-HW-Zvn"/>
+                            <constraint firstAttribute="trailing" secondItem="DCJ-U9-O16" secondAttribute="trailing" id="iaL-ch-11K"/>
+                            <constraint firstItem="TrW-Aw-ycR" firstAttribute="top" secondItem="DCJ-U9-O16" secondAttribute="bottom" id="uOW-fm-Wi8"/>
+                            <constraint firstItem="DCJ-U9-O16" firstAttribute="leading" secondItem="jBs-iY-V1k" secondAttribute="leading" id="xMR-Yi-EsZ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="t5p-Ue-RV7">
                         <barButtonItem key="backBarButtonItem" title="Back" id="ivO-Ta-clO"/>
@@ -356,26 +398,29 @@
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVo-k4-3Aa" userLabel="ReplyBTN">
+                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVo-k4-3Aa" userLabel="ReplyBTN">
                                                     <frame key="frameInset" minX="31" minY="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                     <state key="normal" image="reply-action_0"/>
                                                     <connections>
                                                         <action selector="replyButtonPressed:" destination="JGw-MU-7cO" eventType="touchDown" id="Ad3-Dh-Ldz"/>
                                                         <action selector="replyButtonReleased:" destination="JGw-MU-7cO" eventType="touchUpInside" id="1dy-y5-qQC"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtM-5u-YZx" userLabel="RetweetBTN">
-                                                    <frame key="frameInset" minX="125" minY="6" width="30" height="30"/>
+                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtM-5u-YZx" userLabel="RetweetBTN">
+                                                    <frame key="frameInset" minX="123" minY="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                     <state key="normal" image="retweet-action"/>
                                                     <connections>
                                                         <action selector="rewteetButtonPressed:" destination="JGw-MU-7cO" eventType="touchUpInside" id="VYE-YQ-NIm"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9cC-8q-N5c" userLabel="FavBTN">
-                                                    <frame key="frameInset" minX="231" minY="6" width="30" height="30"/>
+                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9cC-8q-N5c" userLabel="FavBTN">
+                                                    <frame key="frameInset" minX="223" minY="6" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                     <state key="normal" image="like-action"/>
                                                     <connections>
                                                         <action selector="favButtonPressed:" destination="JGw-MU-7cO" eventType="touchUpInside" id="0Nd-9z-cjT"/>
@@ -458,6 +503,6 @@
         <image name="twitter_start_bg" width="768" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="y6E-jG-D9O"/>
+        <segue reference="Heg-wg-bOa"/>
     </inferredMetricsTieBreakers>
 </document>

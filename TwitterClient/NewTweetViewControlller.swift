@@ -157,7 +157,6 @@ class NewTweetViewControlller: UIViewController {
                         }
                     }
                 }
-
                 self.dismiss(animated: true, completion: nil)
             },
             failure: { (error: Error) in

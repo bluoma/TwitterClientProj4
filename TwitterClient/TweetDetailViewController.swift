@@ -18,6 +18,8 @@ class TweetDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        dlog("parentVc: \(self.parent?.title)")
+        
         dlog("tweet: \(tweet)")
         dlog("user: \(currentUser)")
 

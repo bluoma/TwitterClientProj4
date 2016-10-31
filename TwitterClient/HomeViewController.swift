@@ -35,6 +35,9 @@ class HomeViewController: UIViewController {
         }
         dlog("currentUSer: \(currentUser)")
         self.tweetsTableView.addSubview(refreshControl)
+        self.tweetsTableView.estimatedRowHeight = 140.0
+        self.tweetsTableView.rowHeight = UITableViewAutomaticDimension
+        
         doTimelineDownload()
     }
 
