@@ -10,7 +10,7 @@ import UIKit
 
 protocol TweetCellActionDelegate: class {
     
-    func cellButtonPressed(cell: TweetTableViewCell, buttonIndex: Int) -> Void
+    func cellButtonPressed(cell: TweetTableViewCell, buttonIndex: Int, buttonState: Int) -> Void
     
 }
 
@@ -53,7 +53,7 @@ class TweetTableViewCell: UITableViewCell {
         replyButton.setImage(img, for: UIControlState.normal)
         replyButtonState = 0
         
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 0)
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 0, buttonState: 1)
     }
 
     
@@ -73,62 +73,85 @@ class TweetTableViewCell: UITableViewCell {
     @IBAction func rewteetButtonPressed(_ sender: AnyObject) {
         dlog("")
         
-        //retweet-action -- gray, off
-        //rewteet-action-on -- green, on
-        
         if retweetButtonState == 0 {
             retweetButtonState = 1
-            let img = UIImage(named: "retweet-action-on")
-            retweetButton.setImage(img, for: UIControlState.normal)
-            
         }
         else {
             retweetButtonState = 0
+        }
+        setImageForRetweetButtonState()
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 1, buttonState: retweetButtonState)
+    }
+    
+    func setImageForRetweetButtonState() {
+        //retweet-action -- gray, off
+        //rewteet-action-on -- green, on
+        
+        if retweetButtonState == 1 {
+            let img = UIImage(named: "retweet-action-on")
+            retweetButton.setImage(img, for: UIControlState.normal)
+        }
+        else {
             let img = UIImage(named: "retweet-action")
             retweetButton.setImage(img, for: UIControlState.normal)
         }
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 1)
     }
+
     
     @IBAction func favButtonPressed(_ sender: AnyObject) {
         
         dlog("")
-
+        if favButtonState == 0 {
+            favButtonState = 1
+        }
+        else {
+            favButtonState = 0
+        }
+        setImageForFavButtonState()
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 2, buttonState: favButtonState)
+    }
+    
+    func setImageForFavButtonState() {
         //like-action -- gray, off
         //like-action-on -- red, on
         
-        if favButtonState == 0 {
-            favButtonState = 1
+        if favButtonState == 1 {
             let img = UIImage(named: "like-action-on")
             favButton.setImage(img, for: UIControlState.normal)
         }
         else {
-            favButtonState = 0
             let img = UIImage(named: "like-action")
             favButton.setImage(img, for: UIControlState.normal)
         }
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 2)
     }
+
+    
     
     func configureCell(tweet: Tweet, indexPath: IndexPath) {
         
         self.indexPath = indexPath
-        //set to the opposite of what you want, then call pressed
-        favButtonState = 1
-        if let favorited = tweet.favorited {
-            if favorited {
-                favButtonState = 0
-            }
-        }
-        favButtonPressed(self) //initial setting
-
-        retweetButtonState = 1
+        
+        //on network call, button is disabled.
+        //when network call is finished, tableview reloads the cell at this index path
+        retweetButton.isEnabled = true
+        retweetButtonState = 0
         if let retweeted = tweet.retweeted {
             if retweeted {
-                retweetButtonState = 0
+                retweetButtonState = 1
             }
         }
-        rewteetButtonPressed(self) //initial setting
+        setImageForRetweetButtonState()
+        
+        //on network call, button is disabled.
+        //when network call is finished, tableview reloads the cell at this index path
+        favButton.isEnabled = true
+        favButtonState = 0
+        if let favorited = tweet.favorited {
+            if favorited {
+                favButtonState = 1
+            }
+        }
+        setImageForFavButtonState()
         
         replyButtonState = 0 //this is not a toggle button
         

@@ -60,6 +60,15 @@ var oauthVerifierToken: String? = nil
 
 let userDidLoginNotification = Notification.Name(rawValue: "userDidLoginNotification")
 let userDidLogoutNotification = Notification.Name(rawValue: "userDidLogoutNotification")
+let userDidFavNotification = Notification.Name(rawValue: "userDidFavNotification")
+let userDidFailFavNotification = Notification.Name(rawValue: "userDidFailFavNotification")
+let userDidUnFavNotification = Notification.Name(rawValue: "userDidUnFavNotification")
+let userDidFailUnFavNotification = Notification.Name(rawValue: "userDidFailUnFavNotification")
+let userDidRetweetNotification = Notification.Name(rawValue: "userDidRetweetNotification")
+let userDidFailRetweetNotification = Notification.Name(rawValue: "userDidFailsRetweetNotification")
+let userDidUnRetweetNotification = Notification.Name(rawValue: "userDidUnRetweetNotification")
+let userDidFailUnRetweetNotification = Notification.Name(rawValue: "userDidFailUnRetweetNotification")
+
 let twitterAuthorizationUrl = "https://api.twitter.com/oauth/authorize"
 let twitterOauthRequestTokenPath = "oauth/request_token"
 let twitterOauthAccessTokenPath = "oauth/access_token"
@@ -67,7 +76,11 @@ let twitterCurrentUserPath = "1.1/account/verify_credentials.json"
 let twitterHomeTimelinePath = "1.1/statuses/home_timeline.json"
 let twitterUserDetailPath = "1.1/users/show.json"
 let twitterTweetCreatePath = "1.1/statuses/update.json"
+//POST https://api.twitter.com/1.1/statuses/retweet/243149503589400576.json?id=243149503589400576
 let twitterTweetRetweetPath = "1.1/statuses/retweet/%@.json"
-let twitterTweetDetailPath = "1.1/statuses/show.json"
+let twitterTweetDetailPath = "1.1/statuses/show.json"       //GET ?id=210462857140252672"
+let twitterTweetFavPath = "1.1/favorites/create.json"      //POST ?id=243138128959913986"
+let twitterTweetUnFavPath = "1.1/favorites/destroy.json"   //POST ?id=243138128959913986"
+
 
 let twitterBlue = UIColor(red: 29, green: 161, blue: 242, alpha: 1.0)

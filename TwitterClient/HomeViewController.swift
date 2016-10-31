@@ -12,6 +12,7 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var tweetsTableView: UITableView!
     
+    var refreshControl = UIRefreshControl()
     var timelineDownloadTask: URLSessionDataTask?
     var currentUser: User!
     var userTimeline: [Tweet] = [] {
@@ -26,10 +27,13 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        refreshControl.addTarget(self, action: #selector(HomeViewController.doTimelineDownload), for: .valueChanged)
+        
         if currentUser == nil {
             return
         }
         dlog("currentUSer: \(currentUser)")
+        self.tweetsTableView.addSubview(refreshControl)
         doTimelineDownload()
     }
 
@@ -37,7 +41,26 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         dlog("")
        
+        NotificationCenter.default.addObserver(forName: userDidFavNotification, object: nil, queue: nil, using: didReceiveFavNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidFailFavNotification, object: nil, queue: nil, using: didReceiveFavFailNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidUnFavNotification, object: nil, queue: nil, using: didReceiveUnFavNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidFailUnFavNotification, object: nil, queue: nil, using: didReceiveUnFavFailNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidRetweetNotification, object: nil, queue: nil, using: didReceiveRetweetNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidFailRetweetNotification, object: nil, queue: nil, using: didReceiveRetweetFailNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidFailUnRetweetNotification, object: nil, queue: nil, using: didReceiveUnRetweetFailNotification)
+        
+        if userTimeline.count > 0 {
+            tweetsTableView.reloadData()
+        }
     }
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -60,6 +83,7 @@ class HomeViewController: UIViewController {
                 timelineDownloadTask.cancel()
             }
         }
+        NotificationCenter.default.removeObserver(self)
     }
 
     
@@ -68,6 +92,118 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: - Notification Handlers
+    func didReceiveFavNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            
+            tweet.favorited = true
+            if let favCount = tweet.favoriteCount {
+                tweet.favoriteCount = favCount + 1
+            }
+            else {
+                tweet.favoriteCount = 0
+            }
+            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    func didReceiveFavFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.favorited = false
+            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+
+    
+    func didReceiveUnFavNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.favorited = false
+            if var favCount = tweet.favoriteCount {
+                if favCount > 0 {
+                    favCount -= 1
+                }
+                else {
+                    favCount = 0
+                }
+                tweet.favoriteCount = favCount
+            }
+            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    func didReceiveUnFavFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.favorited = true
+            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+
+    
+    func didReceiveRetweetNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            
+            tweet.retweeted = true
+            if let retweetCount = tweet.retweetCount {
+                tweet.retweetCount = retweetCount + 1
+            }
+            else {
+                tweet.retweetCount = 0
+            }
+            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+        }
+
+    }
+
+    func didReceiveRetweetFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.retweeted = false
+            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    func didReceiveUnRetweetFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.retweeted = true
+            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+
+
+    
+    //MARK: - Actions
     @IBAction func signOutPressed(_ sender: AnyObject) {
         
         HttpTwitterClient.shared.logout()
@@ -89,8 +225,7 @@ class HomeViewController: UIViewController {
     @IBAction func newPressed(_ sender: AnyObject) {
         dlog("")
         
-        let emptyTweet = Tweet()
-        performSegue(withIdentifier: "NewTweetModalSegue", sender: emptyTweet)
+        performSegue(withIdentifier: "NewTweetModalSegue", sender: sender)
         
     }
     
@@ -102,34 +237,76 @@ class HomeViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        dlog("segue: \(segue)")
+        dlog("segue: \(segue.identifier)")
         
         guard let segueName = segue.identifier else {
             return
         }
         
+        
         if segueName == "TweetDetailPushSegue" {
-            let destVc: TweetDetailViewController = segue.destination as! TweetDetailViewController
-            if let tweet = sender as? Tweet {
-                destVc.tweet = tweet
+            
+            guard let tweet = sender as? Tweet else {
+                dlog("what!, no tweet")
+                return
             }
             
+            let destVc: TweetDetailViewController = segue.destination as! TweetDetailViewController
+            
+            destVc.tweet = tweet
+            destVc.currentUser = currentUser
+            
+        }
+        else if segueName == "NewTweetModalSegue" {
+            
+            let navVc = segue.destination as! UINavigationController
+            let newVc = navVc.topViewController as! NewTweetViewControlller
+            if let tweet = sender as? Tweet {
+                newVc.replyTweet = tweet //reply
+            }
+            newVc.currentUser = currentUser
         }
     }
     
+    func doDownloadTweet(tweetId: String) {
+        
+        let paramDict = ["id": tweetId]
+        
+        let tweetDownloadTask = HttpTwitterClient.shared.fetchTweet(parameters: paramDict,
+            success: { (tweet: Tweet) -> Void in
+                dlog("tweet: \(tweet)")
+                self.userTimeline.insert(tweet, at: 0)
+                self.tweetsTableView.reloadData()
+                                                                            
+            },
+            failure: { (error: Error) -> Void in
+                dlog("error fetching tweet: \(error)")
+        })
+        
+        dlog("task: \(tweetDownloadTask)")
 
+    }
+    
     func doTimelineDownload() {
+        
+        if timelineDownloadTask?.state == .running {
+            
+            dlog("task is running, ignore: \(timelineDownloadTask)")
+            return
+        }
         
         let paramDict = ["count": 50]
         timelineDownloadTask = HttpTwitterClient.shared.fetchHomeTimeline(parameters: paramDict,
             success: { (tweetArray: [Tweet]) -> Void in
-                
+                self.refreshControl.endRefreshing()
                 if tweetArray.count > 0 {
                     self.userTimeline = tweetArray
                 }
+                self.doDownloadTweet(tweetId: "792846877129527296") //testing
             },
             failure: { (error: Error) -> Void in
                 dlog("error fetching timeline: \(error)")
+                self.refreshControl.endRefreshing()
         })
         
         dlog("task: \(timelineDownloadTask)")
@@ -179,19 +356,95 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension HomeViewController: TweetCellActionDelegate {
     
-    func cellButtonPressed(cell: TweetTableViewCell, buttonIndex: Int) {
+    func cellButtonPressed(cell: TweetTableViewCell, buttonIndex: Int, buttonState: Int) {
     
         //dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
         
+        let currentIndexPath = cell.indexPath!
+        let tweet = userTimeline[currentIndexPath.row]
+        guard let tweetId = tweet.tweetId else {
+            dlog("no id for tweet: \(tweet)")
+            return
+        }
+        
+        var notifDict: [String: Any] = [:]
+        notifDict["tweet"] = tweet
+        notifDict["indexPath"] = currentIndexPath
+        
         if buttonIndex == 0 {
-            newPressed(self)
+            
+            let paramDict = ["id": tweetId]
+
+            dlog("reply buttonIndex: \(buttonIndex), replyDict: \(paramDict)")
+
+            newPressed(tweet)
+
         }
         else if buttonIndex == 1 {
             //retweet
+            let paramDict = ["id": tweetId]
+
+            dlog("retweet buttonIndex: \(buttonIndex), state: \(buttonState), retweetDict: \(paramDict)")
+
+            
+            if buttonState == 1 {
+                
+                cell.retweetButton.isEnabled = false //re-enabled when tableview redraws the cell
+                let task = HttpTwitterClient.shared.retweetTweet(tweetId: tweetId, parameters: paramDict,
+                    success: { (favdTweet: Tweet) in
+                        dlog("retweetedTweet: \(favdTweet)")
+                        NotificationCenter.default.post(name: userDidRetweetNotification, object: nil, userInfo: notifDict)
+                    },
+                    failure: { (error: Error) in
+                        dlog("retweet error: \(error)")
+                        NotificationCenter.default.post(name: userDidFailRetweetNotification, object: nil, userInfo: notifDict)
+                })
+                dlog("retweetTask: \(task)")
+            }
+            else {
+                //not implemented
+                dlog("unretweet not implemented")
+                NotificationCenter.default.post(name: userDidFailUnRetweetNotification, object: nil, userInfo: notifDict)
+            }
+
+            
         }
         else if buttonIndex == 2 {
-            //fav
+            
+            let paramDict = ["id": tweetId]
+            dlog("fav buttonIndex: \(buttonIndex), state: \(buttonState), favDict: \(paramDict)")
+            
+            if buttonState == 1 {
+            
+                cell.favButton.isEnabled = false //re-enabled when tableview redraws the cell
+                let task = HttpTwitterClient.shared.favTweet(parameters: paramDict,
+                    success: { (favdTweet: Tweet) in
+                        dlog("favdTweet: \(favdTweet)")
+                        NotificationCenter.default.post(name: userDidFavNotification, object: nil, userInfo: notifDict)
+                    },
+                    failure: { (error: Error) in
+                        dlog("fav error: \(error)")
+                        NotificationCenter.default.post(name: userDidFailFavNotification, object: nil, userInfo: notifDict)
+                })
+                dlog("favTask: \(task)")
+            }
+            else {
+                cell.favButton.isEnabled = false //re-enabled when tableview redraws the cell
+                let task = HttpTwitterClient.shared.unFavTweet(parameters: paramDict,
+                    success: { (favdTweet: Tweet) in
+                        dlog("unfavdTweet: \(favdTweet)")
+                        NotificationCenter.default.post(name: userDidUnFavNotification, object: nil, userInfo: notifDict)
+                    },
+                    failure: { (error: Error) in
+                        dlog("unfav error: \(error)")
+                        NotificationCenter.default.post(name: userDidFailUnFavNotification, object: nil, userInfo: notifDict)
+                })
+                dlog("unFavTask: \(task)")
+
+            }
+            
         }
+        
 
     }
 }

@@ -142,6 +142,113 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
                 failure(error)
         })
     }
+    
+    func favTweet(parameters: Any?, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
+        
+        return HttpTwitterClient.shared.post(twitterTweetFavPath, parameters: parameters, progress: nil,
+            success: { (task: URLSessionDataTask, tweetDict: Any?) -> Void in
+                if let tweetDict = tweetDict as? NSDictionary {
+                    let tweet: Tweet = Tweet(dictionary: tweetDict)
+                    success(tweet)
+                }
+                else {
+                    let errDict = ["localizedDescription": "Can not convert Any? to NSDictionary"]
+                    let error = NSError(domain: "com.bluoma.TwitterClient", code: -605, userInfo: errDict)
+                    failure(error)
+                }
+            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                //dlog("err faving tweet originalRequest: \(task?.originalRequest?.allHTTPHeaderFields)")
+                //if let postBody = task?.originalRequest?.httpBody {
+                //    let bodyStr = String(data: postBody, encoding: .utf8)
+                    //dlog("postBody: \(bodyStr)")
+                //}
+                //dlog("error faving tweet: \(error)")
+                //dlog("response: \(task?.response)")
+                failure(error)
+        })
+    }
+    
+
+    func unFavTweet(parameters: Any?, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
+        
+        return HttpTwitterClient.shared.post(twitterTweetUnFavPath, parameters: parameters, progress: nil,
+            success: { (task: URLSessionDataTask, tweetDict: Any?) -> Void in
+                if let tweetDict = tweetDict as? NSDictionary {
+                    let tweet: Tweet = Tweet(dictionary: tweetDict)
+                        success(tweet)
+                }
+                else {
+                    let errDict = ["localizedDescription": "Can not convert Any? to NSDictionary"]
+                    let error = NSError(domain: "com.bluoma.TwitterClient", code: -645, userInfo: errDict)
+                                failure(error)
+                }
+            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                //dlog("err faving tweet originalRequest: \(task?.originalRequest?.allHTTPHeaderFields)")
+                //if let postBody = task?.originalRequest?.httpBody {
+                //    let bodyStr = String(data: postBody, encoding: .utf8)
+                //dlog("postBody: \(bodyStr)")
+                //}
+                //dlog("error unfaving tweet: \(error)")
+                //dlog("response: \(task?.response)")
+                failure(error)
+        })
+    }
+
+    func fetchTweet(parameters: Any?, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
+        
+        return HttpTwitterClient.shared.get(twitterTweetDetailPath, parameters: parameters, progress: nil,
+                                             success: { (task: URLSessionDataTask, tweetDict: Any?) -> Void in
+                                                if let tweetDict = tweetDict as? NSDictionary {
+                                                    let tweet: Tweet = Tweet(dictionary: tweetDict)
+                                                    success(tweet)
+                                                }
+                                                else {
+                                                    let errDict = ["localizedDescription": "Can not convert Any? to NSDictionary"]
+                                                    let error = NSError(domain: "com.bluoma.TwitterClient", code: -605, userInfo: errDict)
+                                                    failure(error)
+                                                }
+            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                //dlog("err faving tweet originalRequest: \(task?.originalRequest?.allHTTPHeaderFields)")
+                //if let postBody = task?.originalRequest?.httpBody {
+                //    let bodyStr = String(data: postBody, encoding: .utf8)
+                //dlog("postBody: \(bodyStr)")
+                //}
+                //dlog("error fetching tweet: \(error)")
+                //dlog("response: \(task?.response)")
+                failure(error)
+        })
+    }
+    
+    func retweetTweet(tweetId: String, parameters: Any?, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
+        
+        
+        let path = String(format: twitterTweetRetweetPath, tweetId)
+        
+        dlog("path: \(path)")
+        
+        return HttpTwitterClient.shared.post(path, parameters: parameters, progress: nil,
+            success: { (task: URLSessionDataTask, tweetDict: Any?) -> Void in
+                if let tweetDict = tweetDict as? NSDictionary {
+                    let tweet: Tweet = Tweet(dictionary: tweetDict)
+                        success(tweet)
+                    }
+                    else {
+                        let errDict = ["localizedDescription": "Can not convert Any? to NSDictionary"]
+                        let error = NSError(domain: "com.bluoma.TwitterClient", code: -605, userInfo: errDict)
+                            failure(error)
+                                                }
+            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                dlog("err retweeting tweet originalRequest: \(task?.originalRequest?.allHTTPHeaderFields)")
+                if let postBody = task?.originalRequest?.httpBody {
+                    let bodyStr = String(data: postBody, encoding: .utf8)
+                dlog("postBody: \(bodyStr)")
+                }
+                dlog("error retweeting tweet: \(error)")
+                //dlog("response: \(task?.response)")
+                failure(error)
+        })
+    }
+
 
     
 }

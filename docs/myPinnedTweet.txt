@@ -1,0 +1,4 @@
+2016-10-30 14:54:53.535 TwitterClient[42212:20913295] TweetDetailViewController.swift.viewDidLoad()[20]: tweet: Optional(id: Optional("792846877129527296"), text: Optional("Lol pinned test tweet for my swift class"), createdAt: Optional(2016-10-30 21:53:20 +0000), retweets: Optional(0), favs: Optional(0), creator: Optional("bill luoma"), urls: Optional([]), hashtags: Optional([]), mentions: Optional([]))
+2016-10-30 14:54:53.535 TwitterClient[42212:20913295] TweetDetailViewController.swift.viewDidLoad()[21]: user: Optional(id: Optional("1565651"), name: Optional("bill luoma"), screenName: Optional("bluoma"), desc: Optional("author of Some Math from Kenning Editions"), imageUrl: Optional("https://pbs.twimg.com/profile_images/516974954382761984/tad7zqQx_normal.jpeg"))
+
+my pinned tweet

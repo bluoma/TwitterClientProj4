@@ -10,10 +10,17 @@ import UIKit
 
 class NewTweetViewControlller: UIViewController {
 
+    var newTweet: Tweet? = nil
+    var replyTweet: Tweet? = nil
+    var currentUser: User!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        dlog("tweet: \(replyTweet)")
+        dlog("user: \(currentUser)")
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,6 +28,24 @@ class NewTweetViewControlller: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        dlog("")
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        dlog("")
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        dlog("newTweet: \(newTweet)")
+        
+    }
+
 
     /*
     // MARK: - Navigation

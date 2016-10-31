@@ -79,17 +79,29 @@ class DetailActionsTableViewCell: UITableViewCell {
         
         if retweetButtonState == 0 {
             retweetButtonState = 1
-            let img = UIImage(named: "retweet-action-on")
-            retweetButton.setImage(img, for: UIControlState.normal)
-            
         }
         else {
             retweetButtonState = 0
+        }
+        setImageForRetweetButtonState()
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 1)
+    }
+    
+    func setImageForRetweetButtonState() {
+        //retweet-action -- gray, off
+        //rewteet-action-on -- green, on
+        
+        if retweetButtonState == 1 {
+            let img = UIImage(named: "retweet-action-on")
+            retweetButton.setImage(img, for: UIControlState.normal)
+        }
+        else {
             let img = UIImage(named: "retweet-action")
             retweetButton.setImage(img, for: UIControlState.normal)
         }
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 1)
     }
+
+    
     
     @IBAction func favButtonPressed(_ sender: AnyObject) {
         
@@ -100,37 +112,49 @@ class DetailActionsTableViewCell: UITableViewCell {
         
         if favButtonState == 0 {
             favButtonState = 1
+        }
+        else {
+            favButtonState = 0
+        }
+        setImageForFavButtonState()
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 2)
+    }
+
+    func setImageForFavButtonState() {
+        //like-action -- gray, off
+        //like-action-on -- red, on
+        
+        if favButtonState == 1 {
             let img = UIImage(named: "like-action-on")
             favButton.setImage(img, for: UIControlState.normal)
         }
         else {
-            favButtonState = 0
             let img = UIImage(named: "like-action")
             favButton.setImage(img, for: UIControlState.normal)
         }
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 2)
     }
 
+    
     func configureCell(tweet: Tweet, indexPath: IndexPath) {
         dlog("")
         
         self.indexPath = indexPath
-        //set to the opposite of what you want, then call pressed
-        favButtonState = 1
+
+        favButtonState = 0
         if let favorited = tweet.favorited {
             if favorited {
-                favButtonState = 0
+                favButtonState = 1
             }
         }
-        favButtonPressed(self) //initial setting
+        setImageForFavButtonState()
         
-        retweetButtonState = 1
+        retweetButtonState = 0
         if let retweeted = tweet.retweeted {
             if retweeted {
-                retweetButtonState = 0
+                retweetButtonState = 1
             }
         }
-        rewteetButtonPressed(self) //initial setting
+        setImageForRetweetButtonState()
         
         replyButtonState = 0 //this is not a toggle button
         

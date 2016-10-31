@@ -12,12 +12,14 @@ class TweetDetailViewController: UIViewController {
 
     @IBOutlet weak var tweetTableView: UITableView!
     var tweet: Tweet!
+    var currentUser: User!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         dlog("tweet: \(tweet)")
+        dlog("user: \(currentUser)")
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,13 +52,21 @@ class TweetDetailViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        dlog("segue: \(segue)")
+        dlog("segue: \(segue.identifier)")
         
         guard let segueName = segue.identifier else {
             return
         }
 
         dlog("made it")
+        
+        if segueName == "DetailToReplyModalSegue" {
+            
+            let navVc = segue.destination as! UINavigationController
+            let newVc = navVc.topViewController as! NewTweetViewControlller
+            newVc.replyTweet = tweet
+            newVc.currentUser = currentUser
+        }
     }
     
 
@@ -141,6 +151,13 @@ extension TweetDetailViewController: DetailCellActionDelegate {
         
         dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
         
+        //let currentIndexPath = cell.indexPath!
+        
+        guard let tweetId = tweet.tweetId else {
+            dlog("no id for tweet: \(tweet)")
+            return
+        }
+        
         if buttonIndex == 0 {
             replyPressed(cell)  //reply
         }
@@ -149,6 +166,37 @@ extension TweetDetailViewController: DetailCellActionDelegate {
         }
         else if buttonIndex == 2 {
             //fav
+            let paramDict = ["id": tweetId]
+            
+            dlog("fav buttonIndex: \(buttonIndex), favDict: \(paramDict)")
+            tweet.favorited = true //assume it will succeed
+            if let favCount = tweet.favoriteCount {
+                tweet.favoriteCount = favCount + 1
+            }
+            cell.favButton.isEnabled = false
+            let task = HttpTwitterClient.shared.favTweet(parameters: paramDict,
+                success: { (favdTweet: Tweet) in
+                    dlog("favdTweet: \(favdTweet)")
+                    cell.favButton.isEnabled = true
+                },
+                failure: { (error: Error) in
+                    dlog("error: \(error)")
+                    self.tweet.favorited = false
+                    if var favCount = self.tweet.favoriteCount {
+                        if favCount > 0 {
+                            favCount -= 1
+                        }
+                        else {
+                            favCount = 0
+                        }
+                        self.tweet.favoriteCount = favCount
+                    }
+                    cell.favButton.isEnabled = true
+                    cell.favButtonState = 0
+                    cell.setImageForFavButtonState()
+            })
+            dlog("favTask: \(task)")
+
         }
     }
 }
