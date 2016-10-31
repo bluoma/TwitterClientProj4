@@ -71,13 +71,13 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="151" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DCJ-U9-O16" userLabel="TweetsTV">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TweetTableViewCell" id="eh2-wG-jsi" userLabel="TweetTVC" customClass="TweetTableViewCell" customModule="TwitterClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="151"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eh2-wG-jsi" id="AsA-4E-YWH">
-                                            <frame key="frameInset" width="375" height="151"/>
+                                            <frame key="frameInset" width="375" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wch-Ph-We2" userLabel="AvatarIV">
@@ -293,51 +293,61 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XHN-6n-Ikm" userLabel="DetailTV">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XHN-6n-Ikm" userLabel="DetailTV">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DetailTableViewCell" rowHeight="120" id="khS-HW-fLr" userLabel="DetailTVC" customClass="DetailTableViewCell" customModule="TwitterClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="khS-HW-fLr" id="Xro-Nd-0oy">
-                                            <frame key="frameInset" width="375" height="120"/>
+                                            <frame key="frameInset" width="375" height="119"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-uq-5BK" userLabel="AvatarIV">
-                                                    <frame key="frameInset" minX="12" minY="12" width="50" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="754" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-uq-5BK" userLabel="AvatarIV">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="x8r-59-fCd"/>
+                                                        <constraint firstAttribute="width" constant="50" id="xzX-iD-WhZ"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Michael Moran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbq-UY-Ife" userLabel="ScreenLBL">
-                                                    <frame key="frameInset" minX="70" minY="17" width="95" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Michael Moran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbq-UY-Ife" userLabel="ScreenLBL">
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@TheMichaelMoran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ya-nk-lvp" userLabel="UserLBL">
-                                                    <frame key="frameInset" minX="70" minY="41" width="121" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="@TheMichaelMoran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ya-nk-lvp" userLabel="UserLBL">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I have seen the future of newspapers and it really sucks." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Wp-je-ddA" userLabel="TweetLBL">
-                                                    <frame key="frameInset" minX="12" minY="57" width="295" height="54"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="755" text="I have seen the future of newspapers and it really sucks." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Wp-je-ddA" userLabel="TweetLBL">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="01/29/14, 4:31 PM " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ig2-G3-6Yk" userLabel="TimeLBL">
-                                                    <frame key="frameInset" minX="12" minY="103" width="200" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="754" text="01/29/14, 4:31 PM " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ig2-G3-6Yk" userLabel="TimeLBL">
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="FzS-uq-5BK" firstAttribute="top" secondItem="Xro-Nd-0oy" secondAttribute="topMargin" constant="4" id="0kS-6A-FRM"/>
+                                                <constraint firstItem="FzS-uq-5BK" firstAttribute="leading" secondItem="Xro-Nd-0oy" secondAttribute="leadingMargin" constant="4" id="6AD-yN-idI"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ig2-G3-6Yk" secondAttribute="bottom" constant="2" id="DY4-W2-yxP"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ig2-G3-6Yk" secondAttribute="trailing" constant="8" id="K4A-OR-jX7"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="2Ya-nk-lvp" secondAttribute="trailing" constant="8" id="Qnp-Vp-YYd"/>
+                                                <constraint firstItem="3Wp-je-ddA" firstAttribute="leading" secondItem="Xro-Nd-0oy" secondAttribute="leadingMargin" constant="4" id="UeO-Jg-eqA"/>
+                                                <constraint firstItem="3Wp-je-ddA" firstAttribute="top" secondItem="FzS-uq-5BK" secondAttribute="bottom" constant="8" id="VHJ-YW-AyE"/>
+                                                <constraint firstItem="ig2-G3-6Yk" firstAttribute="leading" secondItem="Xro-Nd-0oy" secondAttribute="leadingMargin" constant="4" id="eqw-DU-bay"/>
+                                                <constraint firstItem="2Ya-nk-lvp" firstAttribute="leading" secondItem="FzS-uq-5BK" secondAttribute="trailing" constant="8" id="j6j-JJ-Z9v"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="wbq-UY-Ife" secondAttribute="trailing" constant="8" id="jWy-y5-g84"/>
+                                                <constraint firstItem="wbq-UY-Ife" firstAttribute="leading" secondItem="FzS-uq-5BK" secondAttribute="trailing" constant="8" id="lAY-BB-bPx"/>
+                                                <constraint firstItem="2Ya-nk-lvp" firstAttribute="top" secondItem="wbq-UY-Ife" secondAttribute="bottom" constant="12" id="qG6-JH-MyF"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="3Wp-je-ddA" secondAttribute="trailing" constant="4" id="qc7-yv-BM2"/>
+                                                <constraint firstItem="ig2-G3-6Yk" firstAttribute="top" secondItem="3Wp-je-ddA" secondAttribute="bottom" constant="8" id="rzb-dh-6QJ"/>
+                                                <constraint firstItem="wbq-UY-Ife" firstAttribute="top" secondItem="Xro-Nd-0oy" secondAttribute="topMargin" constant="4" id="w5f-hV-e9B"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="FzS-uq-5BK" id="MN9-vf-3HC"/>
@@ -351,7 +361,7 @@
                                         <rect key="frame" x="0.0" y="192" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="agS-Sj-hSz" id="S9Y-oh-4Gy">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1321" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIN-NS-O9b" userLabel="RtCountLBL">
@@ -393,7 +403,7 @@
                                         <rect key="frame" x="0.0" y="236" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JGw-MU-7cO" id="EIx-bu-awU">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVo-k4-3Aa" userLabel="ReplyBTN">
@@ -440,6 +450,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XHN-6n-Ikm" firstAttribute="leading" secondItem="B2Q-i4-bAA" secondAttribute="leading" id="7Ue-SZ-w9A"/>
+                            <constraint firstItem="XHN-6n-Ikm" firstAttribute="top" secondItem="B2Q-i4-bAA" secondAttribute="top" id="7YG-vq-Ewd"/>
+                            <constraint firstAttribute="trailing" secondItem="XHN-6n-Ikm" secondAttribute="trailing" id="E0K-jE-7XP"/>
+                            <constraint firstItem="e49-g1-upk" firstAttribute="top" secondItem="XHN-6n-Ikm" secondAttribute="bottom" id="Kai-De-Jcp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tweet" id="Ugd-ms-m7X">
                         <barButtonItem key="rightBarButtonItem" title="Reply" id="nDo-6O-egJ">
@@ -501,6 +517,6 @@
         <image name="twitter_start_bg" width="768" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Heg-wg-bOa"/>
+        <segue reference="y6E-jG-D9O"/>
     </inferredMetricsTieBreakers>
 </document>

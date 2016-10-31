@@ -23,6 +23,11 @@ class TweetDetailViewController: UIViewController {
         dlog("tweet: \(tweet)")
         dlog("user: \(currentUser)")
 
+        self.tweetTableView.tableFooterView = UIView()
+        self.tweetTableView.estimatedRowHeight = 120.0
+        self.tweetTableView.rowHeight = UITableViewAutomaticDimension
+
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -219,7 +224,7 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.row {
         
         case 0:
-            return 120.0
+            return UITableViewAutomaticDimension
             
         case 1:
             return 44.0
