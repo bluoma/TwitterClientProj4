@@ -68,6 +68,7 @@ let userDidRetweetNotification = Notification.Name(rawValue: "userDidRetweetNoti
 let userDidFailRetweetNotification = Notification.Name(rawValue: "userDidFailsRetweetNotification")
 let userDidUnRetweetNotification = Notification.Name(rawValue: "userDidUnRetweetNotification")
 let userDidFailUnRetweetNotification = Notification.Name(rawValue: "userDidFailUnRetweetNotification")
+let userDidTweetNotification = Notification.Name(rawValue: "userDidTweetNotification")
 
 let twitterAuthorizationUrl = "https://api.twitter.com/oauth/authorize"
 let twitterOauthRequestTokenPath = "oauth/request_token"

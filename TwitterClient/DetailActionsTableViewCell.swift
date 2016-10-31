@@ -11,7 +11,7 @@ import UIKit
 
 protocol DetailCellActionDelegate: class {
     
-    func cellButtonPressed(cell: DetailActionsTableViewCell, buttonIndex: Int) -> Void
+    func cellButtonPressed(cell: DetailActionsTableViewCell, buttonIndex: Int, buttonState: Int) -> Void
     
 }
 
@@ -52,7 +52,7 @@ class DetailActionsTableViewCell: UITableViewCell {
         replyButton.setImage(img, for: UIControlState.normal)
         replyButtonState = 0
         
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 0)
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 0, buttonState: 1)
     }
     
     
@@ -84,7 +84,7 @@ class DetailActionsTableViewCell: UITableViewCell {
             retweetButtonState = 0
         }
         setImageForRetweetButtonState()
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 1)
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 1, buttonState: retweetButtonState)
     }
     
     func setImageForRetweetButtonState() {
@@ -117,7 +117,7 @@ class DetailActionsTableViewCell: UITableViewCell {
             favButtonState = 0
         }
         setImageForFavButtonState()
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 2)
+        delegate?.cellButtonPressed(cell: self, buttonIndex: 2, buttonState: favButtonState)
     }
 
     func setImageForFavButtonState() {
@@ -140,6 +140,20 @@ class DetailActionsTableViewCell: UITableViewCell {
         
         self.indexPath = indexPath
 
+        //on network call, button is disabled.
+        //when network call is finished, tableview reloads the cell at this index path
+        retweetButton.isEnabled = true
+        retweetButtonState = 0
+        if let retweeted = tweet.retweeted {
+            if retweeted {
+                retweetButtonState = 1
+            }
+        }
+        setImageForRetweetButtonState()
+
+        //on network call, button is disabled.
+        //when network call is finished, tableview reloads the cell at this index path
+        favButton.isEnabled = true
         favButtonState = 0
         if let favorited = tweet.favorited {
             if favorited {
@@ -148,13 +162,6 @@ class DetailActionsTableViewCell: UITableViewCell {
         }
         setImageForFavButtonState()
         
-        retweetButtonState = 0
-        if let retweeted = tweet.retweeted {
-            if retweeted {
-                retweetButtonState = 1
-            }
-        }
-        setImageForRetweetButtonState()
         
         replyButtonState = 0 //this is not a toggle button
         

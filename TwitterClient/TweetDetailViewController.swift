@@ -13,6 +13,7 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var tweetTableView: UITableView!
     var tweet: Tweet!
     var currentUser: User!
+    var newTweet: Tweet? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +30,22 @@ class TweetDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        dlog("")
+        dlog("new Tweet: \(newTweet)")
+        NotificationCenter.default.addObserver(forName: userDidFavNotification, object: nil, queue: nil, using: didReceiveFavNotification)
         
+        NotificationCenter.default.addObserver(forName: userDidFailFavNotification, object: nil, queue: nil, using: didReceiveFavFailNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidUnFavNotification, object: nil, queue: nil, using: didReceiveUnFavNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidFailUnFavNotification, object: nil, queue: nil, using: didReceiveUnFavFailNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidRetweetNotification, object: nil, queue: nil, using: didReceiveRetweetNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidFailRetweetNotification, object: nil, queue: nil, using: didReceiveRetweetFailNotification)
+        
+        NotificationCenter.default.addObserver(forName: userDidFailUnRetweetNotification, object: nil, queue: nil, using: didReceiveUnRetweetFailNotification)
+        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +58,7 @@ class TweetDetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         dlog("")
         
+        NotificationCenter.default.removeObserver(self)
     }
     
 
@@ -69,7 +85,117 @@ class TweetDetailViewController: UIViewController {
         }
     }
     
+    //MARK: - Notification Handlers
+    func didReceiveFavNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            
+            tweet.favorited = true
+            if let favCount = tweet.favoriteCount {
+                tweet.favoriteCount = favCount + 1
+            }
+            else {
+                tweet.favoriteCount = 0
+            }
+            tweetTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    func didReceiveFavFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.favorited = false
+            tweetTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    
+    func didReceiveUnFavNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.favorited = false
+            if var favCount = tweet.favoriteCount {
+                if favCount > 0 {
+                    favCount -= 1
+                }
+                else {
+                    favCount = 0
+                }
+                tweet.favoriteCount = favCount
+            }
+            tweetTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    func didReceiveUnFavFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.favorited = true
+            tweetTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    
+    func didReceiveRetweetNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            
+            tweet.retweeted = true
+            if let retweetCount = tweet.retweetCount {
+                tweet.retweetCount = retweetCount + 1
+            }
+            else {
+                tweet.retweetCount = 0
+            }
+            tweetTableView.reloadRows(at: [indexPath], with: .none)
+        }
+        
+    }
+    
+    func didReceiveRetweetFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.retweeted = false
+            tweetTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
+    func didReceiveUnRetweetFailNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        if let info = notif.userInfo,
+            let indexPath = info["indexPath"] as? IndexPath,
+            let tweet = info["tweet"] as? Tweet {
+            tweet.retweeted = true
+            tweetTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
 
+    
+    //MARK: - Actions
     @IBAction func replyPressed(_ sender: AnyObject) {
         
         dlog("")
@@ -147,55 +273,86 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension TweetDetailViewController: DetailCellActionDelegate {
     
-    func cellButtonPressed(cell: DetailActionsTableViewCell, buttonIndex: Int) {
+    func cellButtonPressed(cell: DetailActionsTableViewCell, buttonIndex: Int, buttonState: Int) {
         
         dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
         
-        //let currentIndexPath = cell.indexPath!
+        let currentIndexPath = cell.indexPath!
         
         guard let tweetId = tweet.tweetId else {
             dlog("no id for tweet: \(tweet)")
             return
         }
         
+        var notifDict: [String: Any] = [:]
+        notifDict["tweet"] = tweet
+        notifDict["indexPath"] = currentIndexPath
+
+        
         if buttonIndex == 0 {
-            replyPressed(cell)  //reply
+            replyPressed(tweet)  //reply
         }
         else if buttonIndex == 1 {
             //retweet
+            //retweet
+            let paramDict = ["id": tweetId]
+            
+            dlog("retweet buttonIndex: \(buttonIndex), state: \(buttonState), retweetDict: \(paramDict)")
+            
+            
+            if buttonState == 1 {
+                
+                cell.retweetButton.isEnabled = false //re-enabled when tableview redraws the cell
+                let task = HttpTwitterClient.shared.retweetTweet(tweetId: tweetId, parameters: paramDict,
+                                                                 success: { (favdTweet: Tweet) in
+                                                                    dlog("retweetedTweet: \(favdTweet)")
+                                                                    NotificationCenter.default.post(name: userDidRetweetNotification, object: nil, userInfo: notifDict)
+                    },
+                                                                 failure: { (error: Error) in
+                                                                    dlog("retweet error: \(error)")
+                                                                    NotificationCenter.default.post(name: userDidFailRetweetNotification, object: nil, userInfo: notifDict)
+                })
+                dlog("retweetTask: \(task)")
+            }
+            else {
+                //not implemented
+                dlog("unretweet not implemented")
+                NotificationCenter.default.post(name: userDidFailUnRetweetNotification, object: nil, userInfo: notifDict)
+            }
         }
         else if buttonIndex == 2 {
             //fav
             let paramDict = ["id": tweetId]
             
-            dlog("fav buttonIndex: \(buttonIndex), favDict: \(paramDict)")
-            tweet.favorited = true //assume it will succeed
-            if let favCount = tweet.favoriteCount {
-                tweet.favoriteCount = favCount + 1
+            dlog("fav buttonIndex: \(buttonIndex), state: \(buttonState), favDict: \(paramDict)")
+            
+            if buttonState == 1 {
+                
+                cell.favButton.isEnabled = false //re-enabled when tableview redraws the cell
+                let task = HttpTwitterClient.shared.favTweet(parameters: paramDict,
+                                                             success: { (favdTweet: Tweet) in
+                                                                dlog("favdTweet: \(favdTweet)")
+                                                                NotificationCenter.default.post(name: userDidFavNotification, object: nil, userInfo: notifDict)
+                    },
+                                                             failure: { (error: Error) in
+                                                                dlog("fav error: \(error)")
+                                                                NotificationCenter.default.post(name: userDidFailFavNotification, object: nil, userInfo: notifDict)
+                })
+                dlog("favTask: \(task)")
             }
-            cell.favButton.isEnabled = false
-            let task = HttpTwitterClient.shared.favTweet(parameters: paramDict,
-                success: { (favdTweet: Tweet) in
-                    dlog("favdTweet: \(favdTweet)")
-                    cell.favButton.isEnabled = true
-                },
-                failure: { (error: Error) in
-                    dlog("error: \(error)")
-                    self.tweet.favorited = false
-                    if var favCount = self.tweet.favoriteCount {
-                        if favCount > 0 {
-                            favCount -= 1
-                        }
-                        else {
-                            favCount = 0
-                        }
-                        self.tweet.favoriteCount = favCount
-                    }
-                    cell.favButton.isEnabled = true
-                    cell.favButtonState = 0
-                    cell.setImageForFavButtonState()
-            })
-            dlog("favTask: \(task)")
+            else {
+                cell.favButton.isEnabled = false //re-enabled when tableview redraws the cell
+                let task = HttpTwitterClient.shared.unFavTweet(parameters: paramDict,
+                                                               success: { (favdTweet: Tweet) in
+                                                                dlog("unfavdTweet: \(favdTweet)")
+                                                                NotificationCenter.default.post(name: userDidUnFavNotification, object: nil, userInfo: notifDict)
+                    },
+                                                               failure: { (error: Error) in
+                                                                dlog("unfav error: \(error)")
+                                                                NotificationCenter.default.post(name: userDidFailUnFavNotification, object: nil, userInfo: notifDict)
+                })
+                dlog("unFavTask: \(task)")
+            }
 
         }
     }

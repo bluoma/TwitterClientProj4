@@ -234,7 +234,7 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
                     }
                     else {
                         let errDict = ["localizedDescription": "Can not convert Any? to NSDictionary"]
-                        let error = NSError(domain: "com.bluoma.TwitterClient", code: -605, userInfo: errDict)
+                        let error = NSError(domain: "com.bluoma.TwitterClient", code: -705, userInfo: errDict)
                             failure(error)
                                                 }
             }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
@@ -244,6 +244,35 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
                 dlog("postBody: \(bodyStr)")
                 }
                 dlog("error retweeting tweet: \(error)")
+                //dlog("response: \(task?.response)")
+                failure(error)
+        })
+    }
+
+    func createTweet(parameters: Any?, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
+        
+        //POST https://api.twitter.com/1.1/statuses/update.json?status=Maybe%20he%27ll%20finally%20find%20his%20keys.%20%23peterfalk
+        
+        //to reply, pass in_reply_to_status_id=583045829085 with an @username in the status body
+        
+        return HttpTwitterClient.shared.post(twitterTweetCreatePath, parameters: parameters, progress: nil,
+            success: { (task: URLSessionDataTask, tweetDict: Any?) -> Void in
+                if let tweetDict = tweetDict as? NSDictionary {
+                    let tweet: Tweet = Tweet(dictionary: tweetDict)
+                    success(tweet)
+                }
+                else {
+                    let errDict = ["localizedDescription": "Can not convert Any? to NSDictionary"]
+                    let error = NSError(domain: "com.bluoma.TwitterClient", code: -805, userInfo: errDict)
+                    failure(error)
+                }
+            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                dlog("err creating tweet originalRequest: \(task?.originalRequest?.allHTTPHeaderFields)")
+                if let postBody = task?.originalRequest?.httpBody {
+                    let bodyStr = String(data: postBody, encoding: .utf8)
+                    dlog("postBody: \(bodyStr)")
+                }
+                dlog("error creating tweet: \(error)")
                 //dlog("response: \(task?.response)")
                 failure(error)
         })

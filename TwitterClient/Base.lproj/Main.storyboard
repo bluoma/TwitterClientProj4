@@ -186,6 +186,36 @@
                     <view key="view" contentMode="scaleToFill" id="tPk-Xy-Hgp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pnb-sG-KkS" userLabel="AvatarIV">
+                                <frame key="frameInset" minX="16" minY="72" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@TheMichaelMoran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QqL-1O-clK" userLabel="UserLBL">
+                                <frame key="frameInset" minX="74" minY="98" width="121" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Michael Moran" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T72-2i-Sqm" userLabel="ScreenLBL">
+                                <frame key="frameInset" minX="74" minY="74" width="95" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="@bobafet, this is hilarious" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iqH-YJ-71M" userLabel="StatusTV">
+                                <frame key="frameInset" minX="16" minY="140" width="343" height="198"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="tAl-5B-zQz" id="IBn-V9-JLr"/>
+                                </connections>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Tweet" id="d9S-4U-3UM">
@@ -200,10 +230,16 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="avatarImageView" destination="Pnb-sG-KkS" id="IP4-ju-IFL"/>
+                        <outlet property="screenNameLabel" destination="T72-2i-Sqm" id="hKK-95-FAZ"/>
+                        <outlet property="tweetStatusTextView" destination="iqH-YJ-71M" id="KUH-8F-4an"/>
+                        <outlet property="userNameLabel" destination="QqL-1O-clK" id="I4H-3j-P4o"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3BK-wQ-Sfb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4962" y="19"/>
+            <point key="canvasLocation" x="4960.8000000000002" y="18.440779610194905"/>
         </scene>
         <!--TweetViewController-->
         <scene sceneID="HgB-tT-Jxv">
@@ -381,7 +417,7 @@
         <!--HomeNavigationController-->
         <scene sceneID="xDC-9B-4Qq">
             <objects>
-                <navigationController storyboardIdentifier="HomeNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="eAn-uR-UFt" userLabel="HomeNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HomeNavigationController" title="HomeNavVC" automaticallyAdjustsScrollViewInsets="NO" id="eAn-uR-UFt" userLabel="HomeNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="k1a-Lj-RkX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -399,7 +435,7 @@
         <!--NewNavigationController-->
         <scene sceneID="daq-jF-OWl">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9r8-8p-U3E" userLabel="NewNavigationController" sceneMemberID="viewController">
+                <navigationController title="NewNavVC" automaticallyAdjustsScrollViewInsets="NO" id="9r8-8p-U3E" userLabel="NewNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="p0r-VJ-bcW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

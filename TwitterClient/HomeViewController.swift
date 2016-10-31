@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     var refreshControl = UIRefreshControl()
     var timelineDownloadTask: URLSessionDataTask?
     var currentUser: User!
+    var newTweet: Tweet?
     var userTimeline: [Tweet] = [] {
         didSet {
             dlog("tweetCount: \(userTimeline.count)")
@@ -58,8 +59,16 @@ class HomeViewController: UIViewController {
         if userTimeline.count > 0 {
             tweetsTableView.reloadData()
         }
+        
+        dlog("newEmptyTweet: \(self.newTweet)")
+        
+        if let newTweet = self.newTweet {
+            if newTweet.tweetId != nil && newTweet.tweetId!.characters.count > 0 {
+                self.userTimeline.insert(newTweet, at: 0)
+                self.tweetsTableView.reloadData()
+            }
+        }
     }
-    
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -265,6 +274,8 @@ class HomeViewController: UIViewController {
                 newVc.replyTweet = tweet //reply
             }
             newVc.currentUser = currentUser
+            newTweet = Tweet()
+            newVc.newTweet = newTweet
         }
     }
     
@@ -406,8 +417,6 @@ extension HomeViewController: TweetCellActionDelegate {
                 dlog("unretweet not implemented")
                 NotificationCenter.default.post(name: userDidFailUnRetweetNotification, object: nil, userInfo: notifDict)
             }
-
-            
         }
         else if buttonIndex == 2 {
             
@@ -440,11 +449,7 @@ extension HomeViewController: TweetCellActionDelegate {
                         NotificationCenter.default.post(name: userDidFailUnFavNotification, object: nil, userInfo: notifDict)
                 })
                 dlog("unFavTask: \(task)")
-
             }
-            
         }
-        
-
     }
 }
