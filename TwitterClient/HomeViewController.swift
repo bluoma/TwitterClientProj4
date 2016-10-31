@@ -59,9 +59,7 @@ class HomeViewController: UIViewController {
         
         NotificationCenter.default.addObserver(forName: userDidFailUnRetweetNotification, object: nil, queue: nil, using: didReceiveUnRetweetFailNotification)
         
-        if userTimeline.count > 0 {
-            tweetsTableView.reloadData()
-        }
+        
         
         dlog("newEmptyTweet: \(self.newTweet)")
         
@@ -70,6 +68,9 @@ class HomeViewController: UIViewController {
                 self.userTimeline.insert(newTweet, at: 0)
                 self.tweetsTableView.reloadData()
             }
+        }
+        else if userTimeline.count > 0 {
+            tweetsTableView.reloadData()
         }
     }
     
@@ -84,6 +85,8 @@ class HomeViewController: UIViewController {
         
         let isAuth = HttpTwitterClient.shared.isAuthorized
         dlog("isAuthorized: \(isAuth)")
+        
+        NotificationCenter.default.removeObserver(self, name: userDidTweetNotification, object: nil)
 
     }
     
@@ -96,8 +99,17 @@ class HomeViewController: UIViewController {
             }
         }
         NotificationCenter.default.removeObserver(self)
+        
+
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        //listen while we're not visible
+        NotificationCenter.default.addObserver(forName: userDidTweetNotification, object: nil, queue: nil, using: didReceiveTweetNotification)
+
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -213,6 +225,19 @@ class HomeViewController: UIViewController {
         }
     }
 
+    
+    func didReceiveTweetNotification(notif: Notification) -> Void {
+        
+        dlog("notif: \(notif)")
+        
+        if let info = notif.userInfo,
+            let tweet = info["tweet"] as? Tweet {
+           
+            self.newTweet = tweet
+        }
+        
+    }
+
 
     
     //MARK: - Actions
@@ -267,6 +292,9 @@ class HomeViewController: UIViewController {
             
             destVc.tweet = tweet
             destVc.currentUser = currentUser
+            newTweet = nil
+            destVc.newTweet = newTweet
+
             
         }
         else if segueName == "NewTweetModalSegue" {
@@ -277,7 +305,7 @@ class HomeViewController: UIViewController {
                 newVc.replyTweet = tweet //reply
             }
             newVc.currentUser = currentUser
-            newTweet = Tweet()
+            newTweet = nil
             newVc.newTweet = newTweet
         }
     }

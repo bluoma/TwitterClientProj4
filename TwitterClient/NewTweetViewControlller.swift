@@ -143,6 +143,11 @@ class NewTweetViewControlller: UIViewController {
                 dlog("createdTweet: \(newTweet)")
                 self.newTweet = newTweet
                 
+                let userInfo = ["tweet": self.newTweet]
+                
+                NotificationCenter.default.post(name: userDidTweetNotification, object: nil, userInfo: userInfo)
+                
+                /*
                 if let presenting = self.presentingViewController {
                     dlog("presenting: \(presenting.title)")
                     
@@ -157,6 +162,7 @@ class NewTweetViewControlller: UIViewController {
                         }
                     }
                 }
+                 */
                 self.dismiss(animated: true, completion: nil)
             },
             failure: { (error: Error) in
