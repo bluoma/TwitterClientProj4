@@ -181,7 +181,23 @@ class TweetTableViewCell: UITableViewCell {
         }
         
         if let tweetDate = tweet.createdAt {
-            timeLabel.text = tweetDate.description
+            
+            let diff = tweetDate.timeIntervalSinceNow
+            //sec
+            dlog("time: \(diff)")
+            let intDiff = -Int(diff)
+            
+            if intDiff < 60 {
+                timeLabel.text = "\(intDiff) sec"
+            }
+            else if intDiff < 3600 {
+                let min = intDiff / 60
+                timeLabel.text = "\(min) min"
+            }
+            else {
+                let hrs = intDiff / (60 * 60)
+                timeLabel.text = "\(hrs) hr"
+            }
         }
         else {
             timeLabel.text = ""

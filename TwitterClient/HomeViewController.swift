@@ -316,7 +316,7 @@ class HomeViewController: UIViewController {
                 if tweetArray.count > 0 {
                     self.userTimeline = tweetArray
                 }
-                //self.doDownloadTweet(tweetId: "792846877129527296") //testing
+                self.doDownloadTweet(tweetId: "792846877129527296") //testing
             },
             failure: { (error: Error) -> Void in
                 dlog("error fetching timeline: \(error)")
