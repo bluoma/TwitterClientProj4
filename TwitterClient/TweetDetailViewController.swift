@@ -24,7 +24,7 @@ class TweetDetailViewController: UIViewController {
         dlog("user: \(currentUser)")
 
         self.tweetTableView.tableFooterView = UIView()
-        self.tweetTableView.estimatedRowHeight = 120.0
+        self.tweetTableView.estimatedRowHeight = 140.0
         self.tweetTableView.rowHeight = UITableViewAutomaticDimension
 
 

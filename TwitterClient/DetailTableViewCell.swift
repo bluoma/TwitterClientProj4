@@ -18,10 +18,12 @@ class DetailTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     
     var indexPath: IndexPath!
+    var dateFormatter = DateFormatter() //"MM/dd/yy, h:mm a"  //01/29/14, 4:31 PM
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        dateFormatter.dateFormat = "MM/dd/yy, h:mm a"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -68,7 +70,8 @@ class DetailTableViewCell: UITableViewCell {
         }
         
         if let tweetDate = tweet.createdAt {
-            dateLabel.text = tweetDate.description
+            
+            dateLabel.text = dateFormatter.string(from: tweetDate)
         }
         else {
             dateLabel.text = ""
