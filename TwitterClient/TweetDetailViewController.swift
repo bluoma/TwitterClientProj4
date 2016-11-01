@@ -270,11 +270,11 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
     
 }
 
-extension TweetDetailViewController: DetailCellActionDelegate {
+extension TweetDetailViewController: TweetActionDelegate {
     
-    func cellButtonPressed(cell: DetailActionsTableViewCell, buttonIndex: Int, buttonState: Int) {
+    func cellButtonPressed(cell: TweetActionTableViewCell, buttonAction: TweetAction, buttonState: Int) {
         
-        dlog("index: \(buttonIndex) indexPath: \(cell.indexPath)")
+        dlog("index: \(buttonAction) indexPath: \(cell.indexPath)")
         
         //let currentIndexPath = cell.indexPath!
         
@@ -287,15 +287,15 @@ extension TweetDetailViewController: DetailCellActionDelegate {
         notifDict["tweet"] = tweet
 
         
-        if buttonIndex == 0 {
+        if buttonAction == .reply {
             replyPressed(tweet)  //reply
         }
-        else if buttonIndex == 1 {
+        else if buttonAction == .retweet {
             //retweet
             //retweet
             let paramDict = ["id": tweetId]
             
-            dlog("retweet buttonIndex: \(buttonIndex), state: \(buttonState), retweetDict: \(paramDict)")
+            dlog("retweet buttonIndex: \(buttonAction), state: \(buttonState), retweetDict: \(paramDict)")
             
             
             if buttonState == 1 {
@@ -319,11 +319,11 @@ extension TweetDetailViewController: DetailCellActionDelegate {
                 NotificationCenter.default.post(name: userDidFailUnRetweetNotification, object: nil, userInfo: notifDict)
             }
         }
-        else if buttonIndex == 2 {
+        else if buttonAction == .fav {
             //fav
             let paramDict = ["id": tweetId]
             
-            dlog("fav buttonIndex: \(buttonIndex), state: \(buttonState), favDict: \(paramDict)")
+            dlog("fav buttonIndex: \(buttonAction), state: \(buttonState), favDict: \(paramDict)")
             
             if buttonState == 1 {
                 

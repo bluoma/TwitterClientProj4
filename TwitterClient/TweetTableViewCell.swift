@@ -8,28 +8,17 @@
 
 import UIKit
 
-protocol TweetCellActionDelegate: class {
-    
-    func cellButtonPressed(cell: TweetTableViewCell, buttonIndex: Int, buttonState: Int) -> Void
-    
-}
 
-class TweetTableViewCell: UITableViewCell {
+
+class TweetTableViewCell: TweetActionTableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
-    @IBOutlet weak var replyButton: UIButton!
-    @IBOutlet weak var retweetButton: UIButton!
-    @IBOutlet weak var favButton: UIButton!
     
-    var replyButtonState = 0
-    var retweetButtonState = 0
-    var favButtonState = 0
-    var indexPath: IndexPath!
-    weak var delegate: TweetCellActionDelegate? = nil
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,92 +31,9 @@ class TweetTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func replyButtonReleased(_ sender: AnyObject) {
-        
-        dlog("")
-        
-        //reply-action_0 -- gray, off
-        //reply-action-pressed_0 -- light gray, pressed
-        
-        let img = UIImage(named: "reply-action_0")
-        replyButton.setImage(img, for: UIControlState.normal)
-        replyButtonState = 0
-        
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 0, buttonState: 1)
-    }
-
+   
     
-    @IBAction func replyButtonPressed(_ sender: AnyObject) {
-       
-        dlog("")
-        
-        //reply-action_0 -- gray, off
-        //reply-action-pressed_0 -- light gray, pressed
-        
-        let img = UIImage(named: "reply-action-pressed_0")
-        replyButton.setImage(img, for: UIControlState.normal)
-        replyButtonState = 1
-        
-    }
-    
-    @IBAction func rewteetButtonPressed(_ sender: AnyObject) {
-        dlog("")
-        
-        if retweetButtonState == 0 {
-            retweetButtonState = 1
-        }
-        else {
-            retweetButtonState = 0
-        }
-        setImageForRetweetButtonState()
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 1, buttonState: retweetButtonState)
-    }
-    
-    func setImageForRetweetButtonState() {
-        //retweet-action -- gray, off
-        //rewteet-action-on -- green, on
-        
-        if retweetButtonState == 1 {
-            let img = UIImage(named: "retweet-action-on")
-            retweetButton.setImage(img, for: UIControlState.normal)
-        }
-        else {
-            let img = UIImage(named: "retweet-action")
-            retweetButton.setImage(img, for: UIControlState.normal)
-        }
-    }
-
-    
-    @IBAction func favButtonPressed(_ sender: AnyObject) {
-        
-        dlog("")
-        if favButtonState == 0 {
-            favButtonState = 1
-        }
-        else {
-            favButtonState = 0
-        }
-        setImageForFavButtonState()
-        delegate?.cellButtonPressed(cell: self, buttonIndex: 2, buttonState: favButtonState)
-    }
-    
-    func setImageForFavButtonState() {
-        //like-action -- gray, off
-        //like-action-on -- red, on
-        
-        if favButtonState == 1 {
-            let img = UIImage(named: "like-action-on")
-            favButton.setImage(img, for: UIControlState.normal)
-        }
-        else {
-            let img = UIImage(named: "like-action")
-            favButton.setImage(img, for: UIControlState.normal)
-        }
-    }
-
-    
-    
-    func configureCell(tweet: Tweet, indexPath: IndexPath) {
+    override func configureCell(tweet: Tweet, indexPath: IndexPath) {
         
         self.indexPath = indexPath
         

@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  TimelineViewController.swift
 //  TwitterClient
 //
 //  Created by Bill Luoma on 10/25/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class TimelineViewController: UIViewController {
 
     @IBOutlet weak var tweetsTableView: UITableView!
     
@@ -28,7 +28,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshControl.addTarget(self, action: #selector(HomeViewController.doTimelineDownload), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(TimelineViewController.doTimelineDownload), for: .valueChanged)
         
         if currentUser == nil {
             return
@@ -358,7 +358,7 @@ class HomeViewController: UIViewController {
 
 
 
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+extension TimelineViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -396,7 +396,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 
-extension HomeViewController: TweetActionDelegate {
+extension TimelineViewController: TweetActionDelegate {
     
     func cellButtonPressed(cell: TweetActionTableViewCell, buttonAction: TweetAction, buttonState: Int) {
     
