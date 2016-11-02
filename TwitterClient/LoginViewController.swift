@@ -49,12 +49,12 @@ class LoginViewController: UIViewController {
             return;
         }
         
-        if segueName == "LoginToHomeModalSegue" {
+        //if segueName == "LoginToHomeModalSegue" {
          
-            let navVc = segue.destination as! UINavigationController
-            let homeVc = navVc.topViewController as! HomeViewController
-            homeVc.currentUser = sender as! User
-        }
+            //let navVc = segue.destination as! UINavigationController
+            //let homeVc = navVc.topViewController as! HomeViewController
+            //homeVc.currentUser = sender as! User
+        //}
         
     }
     
@@ -86,7 +86,7 @@ class LoginViewController: UIViewController {
                 
                 dlog("user: \(user)")
                 User.currentUser = user
-                self.performSegue(withIdentifier: "LoginToHomeModalSegue", sender: user)
+                self.performSegue(withIdentifier: "LoginToContainerModalSegue", sender: user)
                                     
             },
             failure: { (error: Error) -> Void in

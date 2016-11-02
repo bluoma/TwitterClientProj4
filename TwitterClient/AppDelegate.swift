@@ -25,11 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dlog("got a user: \(user)")
             let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
             
-            let homeNavVC = mainStoryBoard.instantiateViewController(withIdentifier: "HomeNavigationController") as! UINavigationController
+            let containerVC = mainStoryBoard.instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
             
-            let homeVc = homeNavVC.topViewController as! HomeViewController
-            homeVc.currentUser = user
-            window?.rootViewController = homeNavVC
+            window?.rootViewController = containerVC
             window?.makeKeyAndVisible()
             
         }

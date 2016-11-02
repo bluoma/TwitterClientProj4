@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
     
     var refreshControl = UIRefreshControl()
     var timelineDownloadTask: URLSessionDataTask?
-    var currentUser: User!
+    var currentUser: User? = User.currentUser
     var newTweet: Tweet?
     var userTimeline: [Tweet] = [] {
         didSet {
@@ -483,4 +483,5 @@ extension HomeViewController: TweetActionDelegate {
             }
         }
     }
+  
 }
