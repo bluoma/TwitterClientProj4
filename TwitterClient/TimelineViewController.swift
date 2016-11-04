@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: BaseChildViewController {
+class TimelineViewController: BaseParentViewController {
 
     @IBOutlet weak var tweetsTableView: UITableView!
     

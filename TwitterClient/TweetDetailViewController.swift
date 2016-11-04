@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetDetailViewController: UIViewController {
+class TweetDetailViewController: BaseChildViewController {
 
     @IBOutlet weak var tweetTableView: UITableView!
     var tweet: Tweet!
@@ -202,6 +202,7 @@ class TweetDetailViewController: UIViewController {
         performSegue(withIdentifier: "DetailToReplyModalSegue", sender: self)
         
     }
+    
 }
 
 extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate {

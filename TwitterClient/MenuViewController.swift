@@ -12,7 +12,7 @@ protocol MenuViewControllerDelegate: class {
     
     func menuDidSelectController(menu: MenuViewController, controller: UIViewController, at: Int)
     
-    func setMenuButtonDelegate(menu: MenuViewController, controller: BaseChildViewController)
+    func setMenuButtonDelegate(menu: MenuViewController, controller: BaseParentViewController)
     
 }
 
@@ -36,15 +36,17 @@ class MenuViewController: UIViewController {
         let mentionsNavVc = storyboard.instantiateViewController(withIdentifier: "MentionsNavigationController") as! UINavigationController
         let profileNavVc = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
         
-        if let base = homeNavVc.topViewController as? BaseChildViewController {
+        defaultNavBarTint = homeNavVc.navigationBar.tintColor
+        
+        if let base = homeNavVc.topViewController as? BaseParentViewController {
             delegate?.setMenuButtonDelegate(menu: self, controller: base)
         }
         
-        if let base = mentionsNavVc.topViewController as? BaseChildViewController {
+        if let base = mentionsNavVc.topViewController as? BaseParentViewController {
             delegate?.setMenuButtonDelegate(menu: self, controller: base)
         }
         
-        if let base = profileNavVc.topViewController as? BaseChildViewController {
+        if let base = profileNavVc.topViewController as? BaseParentViewController {
             delegate?.setMenuButtonDelegate(menu: self, controller: base)
         }
 

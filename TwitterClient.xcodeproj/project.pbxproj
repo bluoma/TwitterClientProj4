@@ -20,8 +20,9 @@
 		D2AA03581DC954A2006DE04E /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA03571DC954A2006DE04E /* ContainerViewController.swift */; };
 		D2AA035A1DC9C2F6006DE04E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA03591DC9C2F6006DE04E /* ProfileViewController.swift */; };
 		D2AA035C1DC9C344006DE04E /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA035B1DC9C344006DE04E /* MentionsViewController.swift */; };
-		D2AA035E1DCA7E55006DE04E /* BaseChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA035D1DCA7E55006DE04E /* BaseChildViewController.swift */; };
+		D2AA035E1DCA7E55006DE04E /* BaseParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA035D1DCA7E55006DE04E /* BaseParentViewController.swift */; };
 		D2AA037E1DCBA4D5006DE04E /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA037D1DCBA4D5006DE04E /* TimelineViewController.swift */; };
+		D2AA038F1DCC39BE006DE04E /* BaseChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA038E1DCC39BE006DE04E /* BaseChildViewController.swift */; };
 		D2AE7A951DBE825100660EC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE7A941DBE825100660EC1 /* AppDelegate.swift */; };
 		D2AE7A971DBE825100660EC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE7A961DBE825100660EC1 /* LoginViewController.swift */; };
 		D2AE7A9A1DBE825100660EC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2AE7A981DBE825100660EC1 /* Main.storyboard */; };
@@ -50,8 +51,9 @@
 		D2AA03571DC954A2006DE04E /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		D2AA03591DC9C2F6006DE04E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D2AA035B1DC9C344006DE04E /* MentionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
-		D2AA035D1DCA7E55006DE04E /* BaseChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChildViewController.swift; sourceTree = "<group>"; };
+		D2AA035D1DCA7E55006DE04E /* BaseParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseParentViewController.swift; sourceTree = "<group>"; };
 		D2AA037D1DCBA4D5006DE04E /* TimelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
+		D2AA038E1DCC39BE006DE04E /* BaseChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChildViewController.swift; sourceTree = "<group>"; };
 		D2AE7A911DBE825100660EC1 /* TwitterClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2AE7A941DBE825100660EC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2AE7A961DBE825100660EC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -167,8 +169,9 @@
 				D2AA03571DC954A2006DE04E /* ContainerViewController.swift */,
 				D2AA03591DC9C2F6006DE04E /* ProfileViewController.swift */,
 				D2AA035B1DC9C344006DE04E /* MentionsViewController.swift */,
-				D2AA035D1DCA7E55006DE04E /* BaseChildViewController.swift */,
+				D2AA035D1DCA7E55006DE04E /* BaseParentViewController.swift */,
 				D2AA037D1DCBA4D5006DE04E /* TimelineViewController.swift */,
+				D2AA038E1DCC39BE006DE04E /* BaseChildViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -330,7 +333,7 @@
 				D2882C001DC56BAF003D7F23 /* DetailCountsTableViewCell.swift in Sources */,
 				D2AA037E1DCBA4D5006DE04E /* TimelineViewController.swift in Sources */,
 				D2AA03561DC95485006DE04E /* MenuViewController.swift in Sources */,
-				D2AA035E1DCA7E55006DE04E /* BaseChildViewController.swift in Sources */,
+				D2AA035E1DCA7E55006DE04E /* BaseParentViewController.swift in Sources */,
 				D21B165C1DC092C50078A7A3 /* User.swift in Sources */,
 				D21B165E1DC092DB0078A7A3 /* Tweet.swift in Sources */,
 				D2AE7A971DBE825100660EC1 /* LoginViewController.swift in Sources */,
@@ -338,6 +341,7 @@
 				D2AE7AAA1DBEC74400660EC1 /* Constants.swift in Sources */,
 				D2CC8BE61DC2641600744660 /* NewTweetViewControlller.swift in Sources */,
 				D2AE7A951DBE825100660EC1 /* AppDelegate.swift in Sources */,
+				D2AA038F1DCC39BE006DE04E /* BaseChildViewController.swift in Sources */,
 				D2882BFE1DC56B95003D7F23 /* DetailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

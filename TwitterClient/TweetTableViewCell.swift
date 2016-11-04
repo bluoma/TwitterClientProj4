@@ -94,15 +94,19 @@ class TweetTableViewCell: TweetActionTableViewCell {
             let intDiff = -Int(diff)
             
             if intDiff < 60 {
-                timeLabel.text = "\(intDiff) sec"
+                timeLabel.text = "\(intDiff)s"
             }
             else if intDiff < 3600 {
                 let min = intDiff / 60
-                timeLabel.text = "\(min) min"
+                timeLabel.text = "\(min)m"
+            }
+            else if intDiff < 86400 {
+                let hrs = intDiff / (60 * 60)
+                timeLabel.text = "\(hrs)h"
             }
             else {
-                let hrs = intDiff / (60 * 60)
-                timeLabel.text = "\(hrs) hr"
+                let days = intDiff / (60 * 60 * 24)
+                timeLabel.text = "\(days)d"
             }
         }
         else {

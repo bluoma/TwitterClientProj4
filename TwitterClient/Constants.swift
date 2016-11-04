@@ -87,3 +87,4 @@ let twitterTweetUnFavPath = "1.1/favorites/destroy.json"   //POST ?id=2431381289
 let twitterMentionsTimelinePath = "1.1/statuses/mentions_timeline.json"
 
 let twitterBlue = UIColor(red: 29, green: 161, blue: 242, alpha: 1.0)
+var defaultNavBarTint: UIColor? = nil

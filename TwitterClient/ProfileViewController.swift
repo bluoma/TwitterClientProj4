@@ -8,12 +8,17 @@
 
 import UIKit
 
-class ProfileViewController: BaseChildViewController {
+class ProfileViewController: BaseParentViewController {
 
+    var user: User? = nil
+    var userIsCurrentUser = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dlog("in")
 
+        
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {

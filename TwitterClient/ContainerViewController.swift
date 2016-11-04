@@ -13,6 +13,9 @@ class ContainerViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentViewLeadingConstraint: NSLayoutConstraint!
     
+    @IBOutlet var menuPanRecognizer: UIPanGestureRecognizer!
+    
+    
     var intialViewLoaded = false
     var contentViewLeadingMargin: CGFloat = 0.0
     var menuIsOpen: Bool = false {
@@ -188,10 +191,33 @@ class ContainerViewController: UIViewController {
 
     func toggleTopViewInteraction(isOn: Bool) {
         
-        if contentViewController.isKind(of: UINavigationController.self) {
-            let navVc = contentViewController as! UINavigationController
-            if let topVc = navVc.topViewController as? BaseChildViewController {
+        if let navVc = contentViewController as? UINavigationController {
+            if let topVc = navVc.topViewController {
                 topVc.view.isUserInteractionEnabled = isOn
+                let vcCount = navVc.viewControllers.count
+                
+                if topVc !== navVc.viewControllers[0]  {
+                    
+                    //let's disable the back button to prevent mischief
+                    let prevVc = navVc.viewControllers[vcCount - 2]
+                    //topVc.navigationItem.hidesBackButton = !isOn
+                    
+                    navVc.navigationBar.isUserInteractionEnabled = isOn
+                    
+                    if isOn {
+                        navVc.navigationBar.tintColor = defaultNavBarTint
+                    }
+                    else {
+                        navVc.navigationBar.tintColor = UIColor.lightGray
+                    }
+                    
+                    dlog("topVc: \(topVc.navigationItem.title), prev: \(prevVc.navigationItem.title)")
+                }
+                else {
+                    //we don't want to disable the nav bar of the rootVc,
+                    //since that holds the hamburger menu button
+                    dlog("topVc is the root of this nav")
+                }
             }
         }
     }
@@ -199,7 +225,7 @@ class ContainerViewController: UIViewController {
 
 extension ContainerViewController: MenuButtonDelegate {
     
-    func menuPressed(childController: BaseChildViewController) {
+    func menuPressed(parentController: UIViewController) {
         toggleMenu()
     }
     
@@ -213,7 +239,7 @@ extension ContainerViewController: MenuViewControllerDelegate {
 
     }
     
-    func setMenuButtonDelegate(menu: MenuViewController, controller: BaseChildViewController) {
+    func setMenuButtonDelegate(menu: MenuViewController, controller: BaseParentViewController) {
         controller.menuButtonDelegate = self
     }
 }
