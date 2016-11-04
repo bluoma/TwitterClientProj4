@@ -13,8 +13,13 @@ class ContainerViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentViewLeadingConstraint: NSLayoutConstraint!
     
+    var intialViewLoaded = false
     var contentViewLeadingMargin: CGFloat = 0.0
-    var menuIsOpen: Bool = false
+    var menuIsOpen: Bool = false {
+        didSet {
+            self.menuViewController.menuIsOpen = self.menuIsOpen
+        }
+    }
     var menuViewController: MenuViewController!
     
     var contentViewController: UIViewController! {
@@ -30,15 +35,11 @@ class ContainerViewController: UIViewController {
             contentViewController.willMove(toParentViewController: self)
             self.contentView.addSubview(contentViewController.view)
             contentViewController.didMove(toParentViewController: self)
-            
             closeMenu()
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        dlog("in")
-
+    func loadChildViewControllers() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         menuViewController.delegate = self
@@ -52,18 +53,38 @@ class ContainerViewController: UIViewController {
         menuViewController.didMove(toParentViewController: self)
         self.view.setNeedsLayout()
         
+        
+    }
+    
+
+    func toggleMenu() {
+        if menuIsOpen {
+            closeMenu()
+        }
+        else {
+            openMenu()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        dlog("in")
+        loadChildViewControllers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dlog("in")
-        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         dlog("in")
-       
+        if (!intialViewLoaded) {
+            menuViewController.loadInitialView()
+            intialViewLoaded = true
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,7 +103,7 @@ class ContainerViewController: UIViewController {
     }
     
     
-
+   
     /*
     // MARK: - Navigation
 
@@ -119,48 +140,67 @@ class ContainerViewController: UIViewController {
         }
         else if sender.state == .ended {
             
-            let options: UIViewAnimationOptions = directionRight ? .curveEaseOut : .curveEaseInOut
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: options,
-                animations: { () -> Void in
-                    if directionRight {
-                        self.contentViewLeadingConstraint.constant = self.view.bounds.width - 72
-                    }
-                    else {
-                        self.contentViewLeadingConstraint.constant = 0
-                    }
-                    self.view.layoutIfNeeded()
-
-                },
-                completion: { (done: Bool) -> Void in
-                    if directionRight {
-                        self.menuIsOpen = true
-                    }
-                    else {
-                        self.menuIsOpen = false
-                    }
-            })
- 
+            if directionRight {
+                openMenu()
+            }
+            else {
+                closeMenu()
+            }
         }
-        
     }
     
     func closeMenu() {
         if !menuIsOpen {
             return
         }
-        let options: UIViewAnimationOptions = .curveEaseOut
+        let options: UIViewAnimationOptions = .curveEaseInOut
         
         UIView.animate(withDuration: 0.3, delay: 0, options: options,
             animations: { () -> Void in
                 self.contentViewLeadingConstraint.constant = 0
                 self.view.layoutIfNeeded()
-                        
             },
             completion: { (done: Bool) -> Void in
                 self.menuIsOpen = false
+                dlog("self.contentViewController: \(self.contentViewController.title)")
+                self.toggleTopViewInteraction(isOn: true)
         })
+    }
+    
+    func openMenu() {
+        if menuIsOpen {
+            return
+        }
+        let options: UIViewAnimationOptions = .curveEaseInOut
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: options,
+            animations: { () -> Void in
+                self.contentViewLeadingConstraint.constant = self.view.bounds.width - 96
+                self.view.layoutIfNeeded()
+            },
+                completion: { (done: Bool) -> Void in
+                self.menuIsOpen = true
+                dlog("self.contentViewController: \(self.contentViewController.title)")
+                self.toggleTopViewInteraction(isOn: false)
+        })
+    }
+    
 
+    func toggleTopViewInteraction(isOn: Bool) {
+        
+        if contentViewController.isKind(of: UINavigationController.self) {
+            let navVc = contentViewController as! UINavigationController
+            if let topVc = navVc.topViewController as? BaseChildViewController {
+                topVc.view.isUserInteractionEnabled = isOn
+            }
+        }
+    }
+}
+
+extension ContainerViewController: MenuButtonDelegate {
+    
+    func menuPressed(childController: BaseChildViewController) {
+        toggleMenu()
     }
     
 }
@@ -172,5 +212,10 @@ extension ContainerViewController: MenuViewControllerDelegate {
         self.contentViewController = controller
 
     }
+    
+    func setMenuButtonDelegate(menu: MenuViewController, controller: BaseChildViewController) {
+        controller.menuButtonDelegate = self
+    }
 }
+
 

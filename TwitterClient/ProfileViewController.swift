@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: BaseChildViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +42,12 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    //MARK: - Actions
+    //@IBAction override func menuPressed(_ sender: AnyObject) {
+    //    dlog("")
+    //}
+
 
     /*
     // MARK: - Navigation

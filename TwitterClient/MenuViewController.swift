@@ -8,9 +8,11 @@
 
 import UIKit
 
-protocol MenuViewControllerDelegate {
+protocol MenuViewControllerDelegate: class {
     
     func menuDidSelectController(menu: MenuViewController, controller: UIViewController, at: Int)
+    
+    func setMenuButtonDelegate(menu: MenuViewController, controller: BaseChildViewController)
     
 }
 
@@ -20,7 +22,9 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var menuTableView: UITableView!
     
     var viewControllers: [UIViewController] = []
-    var delegate: MenuViewControllerDelegate? = nil
+    weak var delegate: MenuViewControllerDelegate? = nil
+    
+    var menuIsOpen: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,15 +33,30 @@ class MenuViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let homeNavVc = storyboard.instantiateViewController(withIdentifier: "HomeNavigationController") as! UINavigationController
+        let mentionsNavVc = storyboard.instantiateViewController(withIdentifier: "MentionsNavigationController") as! UINavigationController
+        let profileNavVc = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
         
-         let mentionsNavVc = storyboard.instantiateViewController(withIdentifier: "MentionsNavigationController") as! UINavigationController
+        if let base = homeNavVc.topViewController as? BaseChildViewController {
+            delegate?.setMenuButtonDelegate(menu: self, controller: base)
+        }
         
-         let profileNavVc = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+        if let base = mentionsNavVc.topViewController as? BaseChildViewController {
+            delegate?.setMenuButtonDelegate(menu: self, controller: base)
+        }
+        
+        if let base = profileNavVc.topViewController as? BaseChildViewController {
+            delegate?.setMenuButtonDelegate(menu: self, controller: base)
+        }
+
         
         viewControllers.append(homeNavVc)
         viewControllers.append(mentionsNavVc)
         viewControllers.append(profileNavVc)
-
+        
+    }
+    
+    func loadInitialView() {
+        delegate?.menuDidSelectController(menu: self, controller: viewControllers[0], at: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +67,9 @@ class MenuViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         dlog("in")
-        menuTableView.reloadData()
+        //menuTableView.reloadData()
+        //delegate?.menuDidSelectController(menu: self, controller: viewControllers[0], at: 0)
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

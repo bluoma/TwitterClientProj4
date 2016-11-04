@@ -143,6 +143,30 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func fetchMentionsTimeline(parameters: Any?, success: @escaping ([Tweet]) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
+        
+        return HttpTwitterClient.shared.get(twitterMentionsTimelinePath, parameters: parameters, progress: nil,
+            success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
+                
+                dlog("tweetDictArray: \(tweetDictArray)")
+                
+                if let tweetDictArray = tweetDictArray as? [NSDictionary] {
+                    let tweetArray: [Tweet] = Tweet.tweetsWithArray(tweetDicts: tweetDictArray)
+                    success(tweetArray)
+                }
+                else {
+                    let errDict = ["localizedDescription": "Can not convert Any? to [NSDictionary]"]
+                    let error = NSError(domain: "com.bluoma.TwitterClient", code: -205, userInfo: errDict)
+                    failure(error)
+                }
+            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                dlog("error getting mentions timeline: \(error)")
+                dlog("response: \(task?.response)")
+                failure(error)
+        })
+    }
+
+    
     func favTweet(parameters: Any?, success: @escaping (Tweet) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
         
         return HttpTwitterClient.shared.post(twitterTweetFavPath, parameters: parameters, progress: nil,

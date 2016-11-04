@@ -69,6 +69,7 @@ let userDidFailRetweetNotification = Notification.Name(rawValue: "userDidFailsRe
 let userDidUnRetweetNotification = Notification.Name(rawValue: "userDidUnRetweetNotification")
 let userDidFailUnRetweetNotification = Notification.Name(rawValue: "userDidFailUnRetweetNotification")
 let userDidTweetNotification = Notification.Name(rawValue: "userDidTweetNotification")
+let userDidBeginReplyNotification = Notification.Name(rawValue: "userDidBeginReplyNotification")
 
 let twitterAuthorizationUrl = "https://api.twitter.com/oauth/authorize"
 let twitterOauthRequestTokenPath = "oauth/request_token"
@@ -77,11 +78,12 @@ let twitterCurrentUserPath = "1.1/account/verify_credentials.json"
 let twitterHomeTimelinePath = "1.1/statuses/home_timeline.json"
 let twitterUserDetailPath = "1.1/users/show.json"
 let twitterTweetCreatePath = "1.1/statuses/update.json"
+
 //POST https://api.twitter.com/1.1/statuses/retweet/243149503589400576.json?id=243149503589400576
 let twitterTweetRetweetPath = "1.1/statuses/retweet/%@.json"
 let twitterTweetDetailPath = "1.1/statuses/show.json"       //GET ?id=210462857140252672"
 let twitterTweetFavPath = "1.1/favorites/create.json"      //POST ?id=243138128959913986"
 let twitterTweetUnFavPath = "1.1/favorites/destroy.json"   //POST ?id=243138128959913986"
-
+let twitterMentionsTimelinePath = "1.1/statuses/mentions_timeline.json"
 
 let twitterBlue = UIColor(red: 29, green: 161, blue: 242, alpha: 1.0)
