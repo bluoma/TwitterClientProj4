@@ -167,5 +167,13 @@ extension MentionsViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+extension MentionsViewController: ProfileActionDelegate {
+    
+    func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
+        dlog("")
+    }
+    
+}
+
 
 

@@ -17,12 +17,14 @@ class TweetTableViewCell: TweetActionTableViewCell {
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
-    
-    
+    var tapRecognizer: UITapGestureRecognizer!
+    weak var profileDelegate: ProfileActionDelegate? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(TweetTableViewCell.avatarPressed(_:)))
+        avatarImageView.addGestureRecognizer(tapRecognizer)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -121,5 +123,14 @@ class TweetTableViewCell: TweetActionTableViewCell {
         }
         
     }
+    
+    
+    @IBAction func avatarPressed(_ sender: AnyObject) {
+        
+        dlog("")
+        profileDelegate?.profileButtonPressed(cell: self, indexPath: indexPath, buttonState: 1)
+    }
 
 }
+
+

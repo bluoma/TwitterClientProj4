@@ -16,7 +16,8 @@ class DetailTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var tweetTextLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    
+    var tapRecognizer: UITapGestureRecognizer!
+    var profileDelegate: ProfileActionDelegate? = nil
     var indexPath: IndexPath!
     var dateFormatter = DateFormatter() //"MM/dd/yy, h:mm a"  //01/29/14, 4:31 PM
     
@@ -24,6 +25,10 @@ class DetailTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         dateFormatter.dateFormat = "MM/dd/yy, h:mm a"
+        tapRecognizer = UITapGestureRecognizer(target: self,
+                                               action: #selector(DetailTableViewCell.avatarPressed(_:)))
+        avatarImageView.addGestureRecognizer(tapRecognizer)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -84,6 +89,12 @@ class DetailTableViewCell: UITableViewCell {
             tweetTextLabel.text = ""
         }
         
+    }
+
+    @IBAction func avatarPressed(_ sender: AnyObject) {
+        
+        dlog("")
+        profileDelegate?.profileButtonPressed(cell: self, indexPath: indexPath, buttonState: 1)
     }
 
     

@@ -239,7 +239,7 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
         case 0:
             let tweetCell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
             tweetCell.configureCell(tweet: self.tweet, indexPath: indexPath)
-            
+            tweetCell.profileDelegate = self
             return tweetCell
             
         case 1:
@@ -356,9 +356,17 @@ extension TweetDetailViewController: TweetActionDelegate {
                 )
                 dlog("unFavTask: \(task)")
             }
-
         }
     }
+}
+
+
+extension TweetDetailViewController: ProfileActionDelegate {
+    
+    func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
+        dlog("")
+    }
+    
 }
 
 

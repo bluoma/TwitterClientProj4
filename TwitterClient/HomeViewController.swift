@@ -198,6 +198,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         
         let tweet = userTimeline[indexPath.row]
         cell.delegate = self
+        cell.profileDelegate = self
         cell.configureCell(tweet: tweet, indexPath: indexPath)
         
         return cell
@@ -218,4 +219,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+extension HomeViewController: ProfileActionDelegate {
+    
+    func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
+        dlog("")
+    }
+    
+}
 

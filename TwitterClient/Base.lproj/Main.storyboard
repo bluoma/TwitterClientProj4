@@ -80,7 +80,7 @@
                                             <frame key="frameInset" width="375" height="151"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wch-Ph-We2" userLabel="AvatarIV">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wch-Ph-We2" userLabel="AvatarIV">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="HFu-fm-Qu1"/>
                                                         <constraint firstAttribute="height" constant="50" id="bi2-c5-gtk"/>
@@ -240,7 +240,8 @@
                                             <frame key="frameInset" width="375" height="167"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DHb-6w-uOt" userLabel="AvatarIV">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DHb-6w-uOt" userLabel="AvatarIV">
+                                                    <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="H7v-DY-NLf"/>
                                                         <constraint firstAttribute="width" constant="50" id="hWY-3m-mG7"/>
@@ -406,7 +407,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pnb-sG-KkS" userLabel="AvatarIV">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pnb-sG-KkS" userLabel="AvatarIV">
                                 <frame key="frameInset" minX="16" minY="72" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -483,7 +484,7 @@
                                             <frame key="frameInset" width="375" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="754" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-uq-5BK" userLabel="AvatarIV">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="754" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-uq-5BK" userLabel="AvatarIV">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="x8r-59-fCd"/>
                                                         <constraint firstAttribute="width" constant="50" id="xzX-iD-WhZ"/>
