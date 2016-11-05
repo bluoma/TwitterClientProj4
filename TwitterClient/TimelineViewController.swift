@@ -39,7 +39,7 @@ class TimelineViewController: BaseParentViewController {
         self.tweetsTableView.addSubview(refreshControl)
         self.tweetsTableView.estimatedRowHeight = 120.0
         self.tweetsTableView.rowHeight = UITableViewAutomaticDimension
-        
+        self.tweetsTableView.delaysContentTouches = false
         doTimelineDownload()
     }
 

@@ -26,7 +26,7 @@ class TweetDetailViewController: BaseChildViewController {
         self.tweetTableView.tableFooterView = UIView()
         self.tweetTableView.estimatedRowHeight = 140.0
         self.tweetTableView.rowHeight = UITableViewAutomaticDimension
-
+        self.tweetTableView.delaysContentTouches = false
 
     }
 
@@ -90,6 +90,21 @@ class TweetDetailViewController: BaseChildViewController {
             newVc.replyTweet = tweet
             newVc.currentUser = currentUser
         }
+        else if segueName == "TweetDetailProfilePushSegue" {
+            
+            guard let tweet = sender as? Tweet else {
+                dlog("what!, no tweet")
+                return
+            }
+            
+            if let user = tweet.creator {
+                let destVc: ProfileViewController = segue.destination as! ProfileViewController
+                
+                destVc.user = user
+                destVc.userIsCurrentUser = (user.userId == currentUser.userId)
+            }
+        }
+
     }
     
     //MARK: - Notification Handlers
@@ -365,6 +380,8 @@ extension TweetDetailViewController: ProfileActionDelegate {
     
     func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
         dlog("")
+        
+        self.performSegue(withIdentifier: "TweetDetailProfilePushSegue", sender: tweet)
     }
     
 }

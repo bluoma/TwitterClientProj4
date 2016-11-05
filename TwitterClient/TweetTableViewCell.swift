@@ -92,7 +92,7 @@ class TweetTableViewCell: TweetActionTableViewCell {
             
             let diff = tweetDate.timeIntervalSinceNow
             //sec
-            dlog("time: \(diff)")
+            //dlog("time: \(diff)")
             let intDiff = -Int(diff)
             
             if intDiff < 60 {

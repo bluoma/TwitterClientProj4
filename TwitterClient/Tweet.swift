@@ -63,7 +63,9 @@ class Tweet: NSObject {
         var tweets: [Tweet] = []
         
         for tweetDict in tweetDicts {
-            tweets.append(Tweet(dictionary: tweetDict))
+            var tweet = Tweet(dictionary: tweetDict)
+            //dlog("tweet: \(tweet)")
+            tweets.append(tweet)
         }
         
         return tweets

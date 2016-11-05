@@ -78,6 +78,8 @@ let twitterCurrentUserPath = "1.1/account/verify_credentials.json"
 let twitterHomeTimelinePath = "1.1/statuses/home_timeline.json"
 let twitterUserDetailPath = "1.1/users/show.json"
 let twitterTweetCreatePath = "1.1/statuses/update.json"
+let twitterUserTimelinePath = "1.1/statuses/user_timeline.json"
+
 
 //POST https://api.twitter.com/1.1/statuses/retweet/243149503589400576.json?id=243149503589400576
 let twitterTweetRetweetPath = "1.1/statuses/retweet/%@.json"

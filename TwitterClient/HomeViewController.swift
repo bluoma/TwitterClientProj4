@@ -113,6 +113,9 @@ class HomeViewController: TimelineViewController {
             newTweet = nil
             destVc.newTweet = newTweet
 
+            dlog("self.view.superview: \(self.view.superview?.tag)")
+            dlog("self.navigationController.view.superview: \(self.navigationController?.view.superview?.tag)")
+
             
         }
         else if segueName == "NewTweetModalSegue" {
@@ -125,6 +128,21 @@ class HomeViewController: TimelineViewController {
             newVc.currentUser = currentUser
             newTweet = nil
             newVc.newTweet = newTweet
+        }
+        else if segueName == "HomeProfilePushSegue" {
+            
+            guard let tweet = sender as? Tweet else {
+                dlog("what!, no tweet")
+                return
+            }
+
+            
+            if let user = tweet.creator {
+                let destVc: ProfileViewController = segue.destination as! ProfileViewController
+
+                destVc.user = user
+                destVc.userIsCurrentUser = (user.userId == currentUser.userId)
+            }
         }
     }
     
@@ -165,12 +183,12 @@ class HomeViewController: TimelineViewController {
                     self.userTimeline = tweetArray
                 }
                 self.doDownloadTweet(tweetId: "792846877129527296") //testing
-                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             },
             failure: { (error: Error) -> Void in
                 dlog("error fetching timeline: \(error)")
                 self.refreshControl.endRefreshing()
-                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
 
         })
         
@@ -222,6 +240,9 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 extension HomeViewController: ProfileActionDelegate {
     
     func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
+        
+        let tweet = userTimeline[indexPath.row]
+        self.performSegue(withIdentifier: "HomeProfilePushSegue", sender: tweet)
         dlog("")
     }
     

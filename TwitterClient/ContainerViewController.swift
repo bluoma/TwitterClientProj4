@@ -72,6 +72,7 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         dlog("in")
+        self.contentView.tag = 699
         loadChildViewControllers()
     }
     
@@ -191,33 +192,32 @@ class ContainerViewController: UIViewController {
 
     func toggleTopViewInteraction(isOn: Bool) {
         
-        if let navVc = contentViewController as? UINavigationController {
-            if let topVc = navVc.topViewController {
-                topVc.view.isUserInteractionEnabled = isOn
-                let vcCount = navVc.viewControllers.count
+        if let navVc = contentViewController as? UINavigationController,
+            let topVc = navVc.topViewController {
+            topVc.view.isUserInteractionEnabled = isOn
+            let vcCount = navVc.viewControllers.count
+            
+            if topVc !== navVc.viewControllers[0]  {
                 
-                if topVc !== navVc.viewControllers[0]  {
-                    
-                    //let's disable the back button to prevent mischief
-                    let prevVc = navVc.viewControllers[vcCount - 2]
-                    //topVc.navigationItem.hidesBackButton = !isOn
-                    
-                    navVc.navigationBar.isUserInteractionEnabled = isOn
-                    
-                    if isOn {
-                        navVc.navigationBar.tintColor = defaultNavBarTint
-                    }
-                    else {
-                        navVc.navigationBar.tintColor = UIColor.lightGray
-                    }
-                    
-                    dlog("topVc: \(topVc.navigationItem.title), prev: \(prevVc.navigationItem.title)")
+                //let's disable the back button to prevent mischief
+                let prevVc = navVc.viewControllers[vcCount - 2]
+                //topVc.navigationItem.hidesBackButton = !isOn
+                
+                navVc.navigationBar.isUserInteractionEnabled = isOn
+                
+                if isOn {
+                    navVc.navigationBar.tintColor = defaultNavBarTint
                 }
                 else {
-                    //we don't want to disable the nav bar of the rootVc,
-                    //since that holds the hamburger menu button
-                    dlog("topVc is the root of this nav")
+                    navVc.navigationBar.tintColor = UIColor.lightGray
                 }
+                
+                dlog("topVc: \(topVc.navigationItem.title), prev: \(prevVc.navigationItem.title)")
+            }
+            else {
+                //we don't want to disable the nav bar of the rootVc,
+                //since that holds the hamburger menu button
+                dlog("topVc is the root of this nav")
             }
         }
     }
@@ -228,6 +228,12 @@ extension ContainerViewController: MenuButtonDelegate {
     func menuPressed(parentController: UIViewController) {
         toggleMenu()
     }
+    
+    func toggleSwipeGesture(isOn: Bool) {
+        self.menuPanRecognizer.isEnabled = isOn
+        dlog("swipeGestureEnabled: \(self.menuPanRecognizer.isEnabled)")
+    }
+
     
 }
 

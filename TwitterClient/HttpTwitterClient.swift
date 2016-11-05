@@ -137,7 +137,7 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
                     failure(error)
                 }
             }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-                dlog("error getting user timeline: \(error)")
+                dlog("error getting home timeline: \(error)")
                 dlog("response: \(task?.response)")
                 failure(error)
         })
@@ -302,6 +302,26 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
         })
     }
 
+
+    func fetchUserTimeline(parameters: Any?, success: @escaping ([Tweet]) -> Void, failure: @escaping (Error) -> Void) -> URLSessionDataTask? {
+        
+        return HttpTwitterClient.shared.get(twitterUserTimelinePath, parameters: parameters, progress: nil,
+                                            success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
+                                                if let tweetDictArray = tweetDictArray as? [NSDictionary] {
+                                                    let tweetArray: [Tweet] = Tweet.tweetsWithArray(tweetDicts: tweetDictArray)
+                                                    success(tweetArray)
+                                                }
+                                                else {
+                                                    let errDict = ["localizedDescription": "Can not convert Any? to [NSDictionary]"]
+                                                    let error = NSError(domain: "com.bluoma.TwitterClient", code: -205, userInfo: errDict)
+                                                    failure(error)
+                                                }
+            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+                dlog("error getting user timeline: \(error)")
+                dlog("response: \(task?.response)")
+                failure(error)
+        })
+    }
 
     
 }

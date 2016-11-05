@@ -99,6 +99,22 @@ class MentionsViewController: TimelineViewController {
             newTweet = nil
             newVc.newTweet = newTweet
         }
+        else if segueName == "MentionsProfilePushSegue" {
+            
+            guard let tweet = sender as? Tweet else {
+                dlog("what!, no tweet")
+                return
+            }
+            
+            
+            if let user = tweet.creator {
+                let destVc: ProfileViewController = segue.destination as! ProfileViewController
+                
+                destVc.user = user
+                destVc.userIsCurrentUser = (user.userId == currentUser.userId)
+            }
+        }
+
     }
     
     override func doTimelineDownload() {
@@ -118,13 +134,13 @@ class MentionsViewController: TimelineViewController {
                 if tweetArray.count > 0 {
                     self.userTimeline = tweetArray
                 }
-                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
             },
             failure: { (error: Error) -> Void in
                 dlog("error fetching timeline: \(error)")
                 self.refreshControl.endRefreshing()
-                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
         dlog("task: \(timelineDownloadTask)")
     }
@@ -171,6 +187,8 @@ extension MentionsViewController: ProfileActionDelegate {
     
     func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
         dlog("")
+        let tweet = userTimeline[indexPath.row]
+        self.performSegue(withIdentifier: "MentionsProfilePushSegue", sender: tweet)
     }
     
 }
