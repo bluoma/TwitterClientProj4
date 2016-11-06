@@ -72,6 +72,28 @@ class Tweet: NSObject {
     }
     
     
+    class func profileTweetsWithArray(tweetDicts: [NSDictionary]) -> [Tweet] {
+        
+        var tweets: [Tweet] = []
+        
+        for tweetDict in tweetDicts {
+            if let rtDict = tweetDict["retweeted_status"] as? NSDictionary {
+                
+                var tweet = Tweet(dictionary: rtDict)
+                tweets.append(tweet)
+            }
+            else {
+                var tweet = Tweet(dictionary: tweetDict)
+            
+                //dlog("tweet: \(tweet)")
+                tweets.append(tweet)
+            }
+        }
+        
+        return tweets
+    }
+
+    
     override var description: String {
         return "id: \(tweetId), text: \(tweetText), createdAt: \(createdAt), retweets: \(retweetCount), favs: \(favoriteCount), creator: \(creator?.name), urls: \(tweetTextUrls), hashtags: \(tweetTextHashtags), mentions: \(tweetTextUserMentions)"
     }

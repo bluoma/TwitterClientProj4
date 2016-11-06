@@ -83,6 +83,8 @@ class ProfileViewController: TimelineViewController {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         var paramDict: [String: Any] = ["count": 50]
+        paramDict["include_rts"] = true
+        paramDict["exclude_replies"] = false
         if let userId = user?.userId {
             paramDict["user_id"] = userId
         }
@@ -154,9 +156,9 @@ extension ProfileViewController: ProfileActionDelegate {
     
     func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
         
-        let tweet = userTimeline[indexPath.row]
-        self.performSegue(withIdentifier: "HomeProfilePushSegue", sender: tweet)
-        dlog("")
+        //let tweet = userTimeline[indexPath.row]
+        //self.performSegue(withIdentifier: "HomeProfilePushSegue", sender: tweet)
+        dlog("not supported")
     }
     
 }
