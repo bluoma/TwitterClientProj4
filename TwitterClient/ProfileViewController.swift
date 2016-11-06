@@ -62,15 +62,37 @@ class ProfileViewController: TimelineViewController {
     //}
 
 
-    /*
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if let segueName = segue.identifier {
+            
+            if segueName == "ProfileTweetDetailPushSegue" {
+                
+                guard let tweet = sender as? Tweet else {
+                    dlog("what!, no tweet")
+                    return
+                }
+                
+                let destVc: TweetDetailViewController = segue.destination as! TweetDetailViewController
+                
+                destVc.tweet = tweet
+                destVc.currentUser = currentUser
+                newTweet = nil
+                destVc.newTweet = newTweet
+                
+                dlog("self.view.superview: \(self.view.superview?.tag)")
+                dlog("self.navigationController.view.superview: \(self.navigationController?.view.superview?.tag)")
+            }
+
+            
+            
+        }
+        
+        
     }
-    */
+    
     
     override func doTimelineDownload() {
         
@@ -145,7 +167,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         
         let tweet = userTimeline[indexPath.row]
         
-        //performSegue(withIdentifier: "TweetDetailPushSegue", sender: tweet)
+        performSegue(withIdentifier: "ProfileTweetDetailPushSegue", sender: tweet)
         
         
     }
@@ -156,9 +178,27 @@ extension ProfileViewController: ProfileActionDelegate {
     
     func profileButtonPressed(cell: UITableViewCell, indexPath: IndexPath, buttonState: Int) -> Void {
         
-        //let tweet = userTimeline[indexPath.row]
+        let tweet = userTimeline[indexPath.row]
+        
         //self.performSegue(withIdentifier: "HomeProfilePushSegue", sender: tweet)
-        dlog("not supported")
+        
+        if let tuser = tweet.creator {
+            if tuser.userId != self.user?.userId {
+            
+            let sb: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let profileVc: ProfileViewController = sb.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+            profileVc.user = tuser
+            profileVc.userIsCurrentUser = (tuser.userId == currentUser.userId)
+            
+            self.navigationController?.pushViewController(profileVc, animated: true)
+            }
+            else {
+                dlog("curr profile to curr profile not supported")
+            }
+        }
+        else {
+            dlog("no tweet user, not supported")
+        }
     }
     
 }

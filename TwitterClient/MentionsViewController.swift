@@ -163,6 +163,7 @@ extension MentionsViewController: UITableViewDataSource, UITableViewDelegate {
         
         let tweet = userTimeline[indexPath.row]
         cell.delegate = self
+        cell.profileDelegate = self
         cell.configureCell(tweet: tweet, indexPath: indexPath)
         
         return cell

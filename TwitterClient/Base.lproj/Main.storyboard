@@ -510,6 +510,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tweetsTableView" destination="0js-mn-PG3" id="xUD-qw-X24"/>
+                        <segue destination="HUG-7N-IO3" kind="show" identifier="ProfileTweetDetailPushSegue" id="hgE-BT-sTe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="exB-Gm-Uze" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -947,8 +948,8 @@
         <image name="twitter_start_bg" width="768" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Heg-wg-bOa"/>
         <segue reference="XbH-AC-jmN"/>
-        <segue reference="FId-wk-zj2"/>
-        <segue reference="y6E-jG-D9O"/>
+        <segue reference="hgE-BT-sTe"/>
     </inferredMetricsTieBreakers>
 </document>
