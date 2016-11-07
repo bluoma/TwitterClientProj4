@@ -58,6 +58,7 @@ class MenuViewController: UIViewController {
     }
     
     func loadInitialView() {
+        self.menuTableView.selectRow(at: IndexPath(row: 0, section:0), animated: false, scrollPosition: .none)
         delegate?.menuDidSelectController(menu: self, controller: viewControllers[0], at: 0)
     }
     
@@ -139,7 +140,7 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
+        //tableView.deselectRow(at: indexPath, animated: true)
         dlog("indexPath.row: \(indexPath.row)")
         
         delegate?.menuDidSelectController(menu: self, controller: viewControllers[indexPath.row], at: indexPath.row)

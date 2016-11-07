@@ -16,16 +16,20 @@ class ProfileViewController: TimelineViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        dlog("in userIsCurrentUser: \(userIsCurrentUser), user: \(user)")
+
         if isRootVc() {
             self.user = User.currentUser
             self.userIsCurrentUser = true
+            self.navigationItem.title = "My Profile"
         }
         else {
             self.navigationItem.leftBarButtonItem = nil //show the back button instead
             self.navigationItem.hidesBackButton = false
+            if let screenName = user?.screenName {
+                self.navigationItem.title = "@\(screenName) Profile"
+            }
         }
-        dlog("in userIsCurrentUser: \(userIsCurrentUser), user: \(user)")
 
     }
 
@@ -138,24 +142,54 @@ class ProfileViewController: TimelineViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return userTimeline.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-    //func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //    return 120.0
-    //}
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if section == 0 {
+            return 2
+        }
+        else {
+            return userTimeline.count
+        }
+
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            if indexPath.row == 1 {
+                return 44.0
+            }
+        }
+        return UITableViewAutomaticDimension
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: UITableViewCell = UITableViewCell(style: .default, reuseIdentifier: "")
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileTweetTableViewCell", for: indexPath) as! TweetTableViewCell
-        
-        let tweet = userTimeline[indexPath.row]
-        cell.delegate = self
-        cell.profileDelegate = self
-        cell.configureCell(tweet: tweet, indexPath: indexPath)
-        
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let icell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageTableViewCell", for: indexPath) as! ProfileImageTableViewCell
+                icell.configureCell(user: user!)
+                cell = icell
+            }
+            else {
+                let icell = tableView.dequeueReusableCell(withIdentifier: "ProfileStatsTableViewCell", for: indexPath) as! ProfileStatsTableViewCell
+                icell.configureCell(user: user!)
+                cell = icell
+            }
+        }
+        else {
+            let pcell = tableView.dequeueReusableCell(withIdentifier: "ProfileTweetTableViewCell", for: indexPath) as! TweetTableViewCell
+            
+            let tweet = userTimeline[indexPath.row]
+            pcell.delegate = self
+            pcell.profileDelegate = self
+            pcell.configureCell(tweet: tweet, indexPath: indexPath)
+            cell = pcell
+        }
         return cell
     }
     
@@ -164,12 +198,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         dlog("indexPath: \(indexPath)")
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let tweet = userTimeline[indexPath.row]
-        
-        performSegue(withIdentifier: "ProfileTweetDetailPushSegue", sender: tweet)
-        
-        
+        if indexPath.section == 1 {
+            let tweet = userTimeline[indexPath.row]
+            performSegue(withIdentifier: "ProfileTweetDetailPushSegue", sender: tweet)
+        }
     }
     
 }

@@ -128,7 +128,7 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
         return HttpTwitterClient.shared.get(twitterHomeTimelinePath, parameters: parameters, progress: nil,
             success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
                 if let tweetDictArray = tweetDictArray as? [NSDictionary] {
-                    let tweetArray: [Tweet] = Tweet.tweetsWithArray(tweetDicts: tweetDictArray)
+                    let tweetArray: [Tweet] = Tweet.profileTweetsWithArray(tweetDicts: tweetDictArray)
                     success(tweetArray)
                 }
                 else {
@@ -151,7 +151,7 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
                 dlog("tweetDictArray: \(tweetDictArray)")
                 
                 if let tweetDictArray = tweetDictArray as? [NSDictionary] {
-                    let tweetArray: [Tweet] = Tweet.tweetsWithArray(tweetDicts: tweetDictArray)
+                    let tweetArray: [Tweet] = Tweet.profileTweetsWithArray(tweetDicts: tweetDictArray)
                     success(tweetArray)
                 }
                 else {
