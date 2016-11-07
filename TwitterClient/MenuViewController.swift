@@ -115,7 +115,7 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -133,6 +133,9 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
         else if indexPath.row == 2 {
             cell.textLabel?.text = "Profile"
         }
+        else if indexPath.row == 3 {
+            cell.textLabel?.text = "Logout"
+        }
         
         return cell
         
@@ -142,9 +145,12 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
         
         //tableView.deselectRow(at: indexPath, animated: true)
         dlog("indexPath.row: \(indexPath.row)")
-        
-        delegate?.menuDidSelectController(menu: self, controller: viewControllers[indexPath.row], at: indexPath.row)
-
+        if indexPath.row < 3 {
+            delegate?.menuDidSelectController(menu: self, controller: viewControllers[indexPath.row], at: indexPath.row)
+        }
+        else {
+            NotificationCenter.default.post(name: userDidLogoutNotification, object: nil)
+        }
     }
     
 }
