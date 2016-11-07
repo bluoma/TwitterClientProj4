@@ -36,5 +36,12 @@ class ProfileImageTableViewCell: UITableViewCell {
         screenNameLabel.text = user.name
         userNameLabel.text = "@\(user.screenName!)"
         userDescLabel.text = user.desc
+        if let bgImageUrlString = user.profileBackgroundImageUrlString,
+            let url: URL = URL(string: bgImageUrlString) {
+            let bgImageView = UIImageView()
+            bgImageView.contentMode = .scaleAspectFill
+            bgImageView.setImageWith(url)
+            self.backgroundView = bgImageView
+        }
     }
 }
