@@ -13,6 +13,7 @@ class TimelineViewController: BaseParentViewController {
     @IBOutlet weak var tweetsTableView: UITableView!
     
     var refreshControl = UIRefreshControl()
+    var loadingMoreView: LoadingIndicatorView!
     var timelineDownloadTask: URLSessionDataTask?
     var currentUser: User! = User.currentUser
     var newTweet: Tweet?
@@ -22,6 +23,31 @@ class TimelineViewController: BaseParentViewController {
             if userTimeline.count > 0 {
                 tweetsTableView.reloadData()
             }
+        }
+    }
+    
+    var isDownloadInProgress: Bool {
+        get {
+            var isInProgress = false
+            if let dlTask = timelineDownloadTask {
+                if dlTask.state == .running {
+                    isInProgress = true
+                }
+            }
+            return isInProgress
+        }
+    }
+    
+    var currentIdAtEndOfTweetList: String? {
+        get {
+            var maxId: String? = nil
+            
+            if let lastTweet = userTimeline.last {
+                if let lastMaxId = lastTweet.tweetId {
+                    maxId = lastMaxId
+                }
+            }
+            return maxId
         }
     }
     
@@ -36,10 +62,21 @@ class TimelineViewController: BaseParentViewController {
             return
         }
         dlog("currentUSer: \(currentUser)")
-        self.tweetsTableView.addSubview(refreshControl)
-        self.tweetsTableView.estimatedRowHeight = 120.0
-        self.tweetsTableView.rowHeight = UITableViewAutomaticDimension
-        self.tweetsTableView.delaysContentTouches = false
+        tweetsTableView.addSubview(refreshControl)
+        tweetsTableView.estimatedRowHeight = 120.0
+        tweetsTableView.rowHeight = UITableViewAutomaticDimension
+        tweetsTableView.delaysContentTouches = false
+        
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0, y: tweetsTableView.contentSize.height, width: tweetsTableView.bounds.size.width, height: LoadingIndicatorView.defaultHeight)
+        loadingMoreView = LoadingIndicatorView(frame: frame)
+        loadingMoreView.isHidden = true
+        tweetsTableView.addSubview(loadingMoreView)
+        
+        var insets = tweetsTableView.contentInset;
+        insets.bottom += LoadingIndicatorView.defaultHeight;
+        tweetsTableView.contentInset = insets
+        
         doTimelineDownload()
     }
 
@@ -126,7 +163,7 @@ class TimelineViewController: BaseParentViewController {
         dlog("notif: \(notif)")
         
         if let info = notif.userInfo,
-            let indexPath = info["indexPath"] as? IndexPath,
+            //let indexPath = info["indexPath"] as? IndexPath,
             let tweet = info["tweet"] as? Tweet {
             
             tweet.favorited = true
@@ -136,7 +173,8 @@ class TimelineViewController: BaseParentViewController {
             else {
                 tweet.favoriteCount = 0
             }
-            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            //tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            tweetsTableView.reloadData()
         }
     }
     
@@ -145,10 +183,11 @@ class TimelineViewController: BaseParentViewController {
         dlog("notif: \(notif)")
         
         if let info = notif.userInfo,
-            let indexPath = info["indexPath"] as? IndexPath,
+            //let indexPath = info["indexPath"] as? IndexPath,
             let tweet = info["tweet"] as? Tweet {
             tweet.favorited = false
-            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            //tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            tweetsTableView.reloadData()
         }
     }
 
@@ -158,7 +197,7 @@ class TimelineViewController: BaseParentViewController {
         dlog("notif: \(notif)")
         
         if let info = notif.userInfo,
-            let indexPath = info["indexPath"] as? IndexPath,
+            //let indexPath = info["indexPath"] as? IndexPath,
             let tweet = info["tweet"] as? Tweet {
             tweet.favorited = false
             if var favCount = tweet.favoriteCount {
@@ -170,7 +209,8 @@ class TimelineViewController: BaseParentViewController {
                 }
                 tweet.favoriteCount = favCount
             }
-            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            //tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            tweetsTableView.reloadData()
         }
     }
     
@@ -179,10 +219,11 @@ class TimelineViewController: BaseParentViewController {
         dlog("notif: \(notif)")
         
         if let info = notif.userInfo,
-            let indexPath = info["indexPath"] as? IndexPath,
+            //let indexPath = info["indexPath"] as? IndexPath,
             let tweet = info["tweet"] as? Tweet {
             tweet.favorited = true
-            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            //tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            tweetsTableView.reloadData()
         }
     }
 
@@ -192,7 +233,7 @@ class TimelineViewController: BaseParentViewController {
         dlog("notif: \(notif)")
         
         if let info = notif.userInfo,
-            let indexPath = info["indexPath"] as? IndexPath,
+            //let indexPath = info["indexPath"] as? IndexPath,
             let tweet = info["tweet"] as? Tweet {
             
             tweet.retweeted = true
@@ -202,7 +243,8 @@ class TimelineViewController: BaseParentViewController {
             else {
                 tweet.retweetCount = 0
             }
-            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            //tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            tweetsTableView.reloadData()
         }
 
     }
@@ -211,10 +253,11 @@ class TimelineViewController: BaseParentViewController {
         
         dlog("notif: \(notif)")
         if let info = notif.userInfo,
-            let indexPath = info["indexPath"] as? IndexPath,
+            //let indexPath = info["indexPath"] as? IndexPath,
             let tweet = info["tweet"] as? Tweet {
             tweet.retweeted = false
-            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            //tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            tweetsTableView.reloadData()
         }
     }
     
@@ -222,10 +265,11 @@ class TimelineViewController: BaseParentViewController {
         
         dlog("notif: \(notif)")
         if let info = notif.userInfo,
-            let indexPath = info["indexPath"] as? IndexPath,
+            //let indexPath = info["indexPath"] as? IndexPath,
             let tweet = info["tweet"] as? Tweet {
             tweet.retweeted = true
-            tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            //tweetsTableView.reloadRows(at: [indexPath], with: .none)
+            tweetsTableView.reloadData()
         }
     }
 
@@ -249,7 +293,39 @@ class TimelineViewController: BaseParentViewController {
     
     //override this
     func doTimelineDownload() { }
+    
+    func doTimelineDownloadAppend() { }
 
+}
+
+extension TimelineViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+        if self.isDownloadInProgress {
+            dlog("loading, skip scrollview delegate calls")
+            return
+        }
+        // Calculate the position of one screen length before the bottom of the results
+        let scrollViewContentHeight = scrollView.contentSize.height
+        let scrollOffsetThreshold = scrollViewContentHeight - scrollView.bounds.size.height
+        
+        dlog("scrollView.contentOffset.y: \(scrollView.contentOffset.y), scrollOffsetThreshold: \(scrollOffsetThreshold)")
+        
+        // When the user has scrolled past the threshold, start requesting
+        if scrollView.contentOffset.y >= scrollOffsetThreshold {
+            
+            dlog("scrollView.contentOffset.y: \(scrollView.contentOffset.y) >= scrollOffsetThreshold: \(scrollOffsetThreshold)")
+            
+            // Update position of loadingMoreView, and start loading indicator
+            let frame = CGRect(x: 0, y: scrollView.contentSize.height, width: scrollView.bounds.size.width, height: LoadingIndicatorView.defaultHeight)
+            loadingMoreView?.frame = frame
+            
+            doTimelineDownloadAppend()
+        }
+    }
+    
+    
 }
 
 extension TimelineViewController: TweetActionDelegate {
