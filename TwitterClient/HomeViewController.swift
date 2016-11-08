@@ -195,6 +195,62 @@ class HomeViewController: TimelineViewController {
         dlog("task: \(timelineDownloadTask)")
     
     }
+    
+    override func doTimelineDownloadAppend() {
+        
+        if isDownloadInProgress {
+            
+            dlog("task is running, ignore: \(timelineDownloadTask)")
+            return
+        }
+        
+        guard let currentMaxId = self.currentIdAtEndOfTweetList else {
+            dlog("no maxId, bailing")
+            return
+        }
+        
+        var paramDict: [String: Any] = ["count": 50]
+        //paramDict["include_rts"] = true
+        //paramDict["exclude_replies"] = false
+        //if let userId = user?.userId {
+        //    paramDict["user_id"] = userId
+        //}
+        
+        paramDict["max_id"] = currentMaxId
+        dlog("params: \(paramDict)")
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        loadingMoreView.startAnimating()
+        dlog("loadingMoreView: \(loadingMoreView)")
+        
+        timelineDownloadTask = HttpTwitterClient.shared.fetchHomeTimeline(parameters: paramDict,
+            success: { (tweetArray: [Tweet]) -> Void in
+                
+                dlog("newTweetsToAppend: \(tweetArray.count)")
+                if tweetArray.count > 0 {
+                    if let lastTweetId = self.currentIdAtEndOfTweetList,
+                        let newFirstTweet = tweetArray.first {
+                        if newFirstTweet.tweetId == lastTweetId {
+                            self.userTimeline.removeLast()
+                        }
+                    }
+                    self.userTimeline.append(contentsOf: tweetArray)
+                    self.tweetsTableView.reloadData()
+                }
+                                                                            
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.loadingMoreView.stopAnimating()
+            },
+            failure: { (error: Error) -> Void in
+                dlog("error fetching timeline: \(error)")
+                                                                            
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.loadingMoreView.stopAnimating()
+                                                                            
+        })
+        dlog("task: \(timelineDownloadTask)")
+    }
+
 }
 
 
