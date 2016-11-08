@@ -144,6 +144,55 @@ class MentionsViewController: TimelineViewController {
         })
         dlog("task: \(timelineDownloadTask)")
     }
+    
+    override func doTimelineDownloadAppend() {
+        
+        if isDownloadInProgress {
+            dlog("task is running, ignore: \(timelineDownloadTask)")
+            return
+        }
+        
+        guard let currentMaxId = self.currentIdAtEndOfTweetList else {
+            dlog("no maxId, bailing")
+            return
+        }
+
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        var paramDict: [String: Any] = ["count": 50]
+        paramDict["max_id"] = currentMaxId
+        dlog("params: \(paramDict)")
+        loadingMoreView.startAnimating()
+        dlog("loadingMoreView: \(loadingMoreView)")
+        
+        timelineDownloadTask = HttpTwitterClient.shared.fetchMentionsTimeline(parameters: paramDict,
+            success: { (tweetArray: [Tweet]) -> Void in
+                if tweetArray.count > 0 {
+                    if let lastTweetId = self.currentIdAtEndOfTweetList,
+                        let newFirstTweet = tweetArray.first {
+                        if newFirstTweet.tweetId == lastTweetId {
+                            self.userTimeline.removeLast()
+                        }
+                    }
+                    self.userTimeline.append(contentsOf: tweetArray)
+                    self.tweetsTableView.reloadData()
+                }
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.loadingMoreView.stopAnimating()
+
+            },
+            failure: { (error: Error) -> Void in
+                dlog("error fetching timeline: \(error)")
+
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.loadingMoreView.stopAnimating()
+
+        })
+        dlog("task: \(timelineDownloadTask)")
+    }
+
+    
 }
 
 extension MentionsViewController: UITableViewDataSource, UITableViewDelegate {

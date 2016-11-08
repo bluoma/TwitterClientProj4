@@ -212,9 +212,7 @@ class HomeViewController: TimelineViewController {
         var paramDict: [String: Any] = ["count": 50]
         //paramDict["include_rts"] = true
         //paramDict["exclude_replies"] = false
-        //if let userId = user?.userId {
-        //    paramDict["user_id"] = userId
-        //}
+        
         
         paramDict["max_id"] = currentMaxId
         dlog("params: \(paramDict)")

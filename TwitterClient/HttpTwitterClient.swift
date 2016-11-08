@@ -148,7 +148,7 @@ class HttpTwitterClient: BDBOAuth1SessionManager {
         return HttpTwitterClient.shared.get(twitterMentionsTimelinePath, parameters: parameters, progress: nil,
             success: { (task: URLSessionDataTask, tweetDictArray: Any?) -> Void in
                 
-                dlog("tweetDictArray: \(tweetDictArray)")
+                //dlog("tweetDictArray: \(tweetDictArray)")
                 
                 if let tweetDictArray = tweetDictArray as? [NSDictionary] {
                     let tweetArray: [Tweet] = Tweet.profileTweetsWithArray(tweetDicts: tweetDictArray)
